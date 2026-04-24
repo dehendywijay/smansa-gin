@@ -1,0 +1,4 @@
+export const api = 'http://localhost:8080'
+export const api_base = `http://${api}/api`
+export const api_news = "http://localhost:8080/api/news"
+export const api_images = `${api}/uploads`
