@@ -9,11 +9,17 @@ export default function Sidebar() {
   const { news, loading, error } = useNews();
 
   if (loading) {
-    return <aside className="w-full max-w-sm text-sm text-gray-500">Loading latest posts...</aside>;
+    return (
+      <aside className="w-full max-w-sm text-sm text-gray-500">
+        Loading latest posts...
+      </aside>
+    );
   }
 
   if (error) {
-    return <aside className="w-full max-w-sm text-sm text-red-600">{error}</aside>;
+    return (
+      <aside className="w-full max-w-sm text-sm text-red-600">{error}</aside>
+    );
   }
 
   return (
@@ -22,7 +28,11 @@ export default function Sidebar() {
         <h3 className="font-bold text-lg mb-4 tracking-wide">SEARCH</h3>
 
         <div className="relative">
-          <input type="text" placeholder="Search ..." className="w-full border border-gray-300 p-3 pr-10" />
+          <input
+            type="text"
+            placeholder="Search ..."
+            className="w-full border border-gray-300 p-3 pr-10"
+          />
 
           <span className="absolute right-3 top-3 text-gray-500">🔍</span>
         </div>
@@ -33,15 +43,28 @@ export default function Sidebar() {
 
         <div className="space-y-6">
           {news.map((post) => (
-            <Link key={post.id} href={`/berita/${post.id}`} className="flex gap-4 group">
+            <Link
+              key={post.ID}
+              href={`/berita/${post.ID}`}
+              className="flex gap-4 group"
+            >
               <div className="relative w-20 h-20 shrink-0">
-                <Image src={post.thumbnail} alt={post.title} fill className="object-cover" />
+                <Image
+                  src={post.thumbnail}
+                  alt={post.title}
+                  fill
+                  className="object-cover"
+                />
               </div>
 
               <div>
-                <h4 className="font-semibold leading-snug group-hover:text-blue-600 transition">{post.title}</h4>
+                <h4 className="font-semibold leading-snug group-hover:text-blue-600 transition">
+                  {post.title}
+                </h4>
 
-                <p className="text-sm text-gray-500 mt-2">{formatDate(post.createdAt)}</p>
+                <p className="text-sm text-gray-500 mt-2">
+                  {formatDate(post.createdAt)}
+                </p>
               </div>
             </Link>
           ))}

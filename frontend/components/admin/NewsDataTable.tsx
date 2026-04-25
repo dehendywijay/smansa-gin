@@ -20,8 +20,8 @@ import { api_news } from "@/constans/strings";
 export default function NewsDataTable() {
   const router = useRouter();
 
-  const deleteNews = async (id: number) => {
-    const res = await axios.delete(`${api_news}/${id}`);
+  const deleteNews = async (slug: string) => {
+    const res = await axios.delete(`${api_news}/${slug}`);
     if (res.status === 200) {
       toast.success(res.data.message);
       router.push("/admin");
@@ -68,7 +68,7 @@ export default function NewsDataTable() {
               <TableRow key={newsItem.ID}>
                 <TableCell>{newsItem.ID}</TableCell>
                 <TableCell className="font-medium">{newsItem.title.split(" ").slice(0, 10).join(" ")}...</TableCell>
-                <TableCell>{formatDate(newsItem.createdAt)}</TableCell>
+                <TableCell>{formatDate(newsItem.CreatedAt)}</TableCell>
                 <TableCell>
                   <Badge variant={newsItem.status === "published" ? "default" : "secondary"}>{newsItem.status}</Badge>
                 </TableCell>
@@ -83,7 +83,7 @@ export default function NewsDataTable() {
                     {/* <Button variant="ghost" size="icon" className="text-red-500" onClick={() => {deleteNews(newsItem.id)}}>
                       <Trash2 className="h-4 w-4" />
                     </Button> */}
-                    <AlertDialogDestructive onDelete={() => deleteNews(newsItem.ID)} />
+                    <AlertDialogDestructive onDelete={() => deleteNews(newsItem.slug)} />
                   </div>
                 </TableCell>
               </TableRow>

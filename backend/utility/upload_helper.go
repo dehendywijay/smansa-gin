@@ -11,7 +11,6 @@ import (
 	"github.com/google/uuid"
 )
 
-// ProcessImageUpload handles image upload, validation, and path generation
 func ProcessImageUpload(c *gin.Context, field string) ([]byte, string, string, error) {
 	file, err := c.FormFile(field)
 	if err != nil {

@@ -7,4 +7,5 @@ type News struct {
 	Title     string `json:"title" gorm:"not null"`
 	Thumbnail string `json:"thumbnail" gorm:"not null"`
 	Content   string `json:"content" gorm:"not null"`
+	Slug	  string `json:"slug" gorm:"not null"`
 }

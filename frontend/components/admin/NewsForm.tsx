@@ -61,6 +61,7 @@ export default function NewsForm({ open, onOpenChange, onSave, initialData }: Ne
       status,
       thumbnail: thumbnail?.name || initialData?.thumbnail || "",
       imgUrl: thumbnail?.name || initialData?.imgUrl || "",
+    
     };
     onSave(newsData);
     router.refresh()

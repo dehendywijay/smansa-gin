@@ -34,9 +34,9 @@ export default function Sidebar() {
 
         <div className="space-y-6">
           {news.slice(0, 10).map((post) => (
-            <Link key={post.ID} href={`/main/berita/${post.ID}`} className="flex gap-4 group">
+            <Link key={post.ID} href={`/main/berita/${post.slug}`} className="flex gap-4 group">
               <div className="relative w-20 h-20 shrink-0">
-                <Image src={`${api_images}/${post.thumbnail}`} alt={post.title} fill className="object-cover" />
+                <Image src={post.thumbnail} alt={post.title} fill className="object-cover" />
               </div>
 
               <div>

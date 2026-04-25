@@ -17,6 +17,7 @@ export type News = {
   content: string;
   category: string;
   status: "published" | "draft";
-  createdAt: string | Date;
-  updatedAt: string | Date;
+  CreatedAt: string | Date;
+  UpdatedAt: string | Date;
+  slug : string;
 };
