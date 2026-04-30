@@ -1,48 +1,78 @@
+"use client";
+
 import Image from "next/image";
+import Link from "next/link";
 import RevealOnScroll from "@/components/animations/RevealOnScroll";
+import { ArrowRight, Quote } from "lucide-react";
 
 export default function GreetingSection() {
   return (
-    <section className="flex flex-col md:flex-row items-center md:items-start gap-10 max-w-6xl mx-auto p-6 mt-16 md:mt-40">
-      {/* Foto dengan border dan dekorasi lingkaran */}
-      <RevealOnScroll direction="left" rootMargin="0px 0px -10% 0px" className="relative w-48 h-48 md:w-64 md:h-64 shrink-0 mx-auto md:mx-0">
-        {/* Border lingkaran besar */}
-        <div className="absolute inset-0 rounded-full border-8 border-red-800"></div>
+    <section className="relative py-24 md:py-32 bg-white overflow-hidden">
+      {/* Background Decorative Element */}
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-slate-50 -skew-x-12 translate-x-1/2 -z-10" />
 
-        {/* Foto lingkaran */}
-        <Image src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop" alt="Kepala Sekolah" fill className="rounded-full w-full h-full object-cover relative z-10" />
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex flex-col lg:flex-row items-center gap-12 md:gap-20">
+          
+          {/* Image Side */}
+          <RevealOnScroll direction="left" className="relative w-full max-w-[400px] aspect-[4/5] shrink-0">
+            <div className="absolute -inset-4 border-2 border-brand-primary/20 rounded-2xl -z-10 translate-x-4 translate-y-4" />
+            <div className="absolute inset-0 bg-brand-primary/10 rounded-2xl -z-10" />
+            
+            <div className="relative h-full w-full rounded-2xl overflow-hidden shadow-2xl">
+              <Image 
+                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop" 
+                alt="Kepala Sekolah" 
+                fill 
+                className="object-cover transition-transform duration-700 hover:scale-105" 
+              />
+              
+              {/* Name Tag Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-brand-primary to-transparent text-white">
+                <p className="font-heading font-bold text-lg">Henrican Purba, M.Pd.</p>
+                <p className="text-xs uppercase tracking-widest text-white/80">Kepala Sekolah</p>
+              </div>
+            </div>
+          </RevealOnScroll>
 
-        {/* Dekorasi lingkaran kecil kiri atas */}
-        <div className="absolute -top-4 -left-4 md:-top-6 md:-left-6 w-10 h-10 md:w-14 md:h-14 rounded-full border-4 border-red-800 bg-red-900 z-20"></div>
+          {/* Text Side */}
+          <RevealOnScroll direction="right" className="flex-1 space-y-8">
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-brand-surface-alt border border-brand-primary/10">
+                <span className="w-2 h-2 rounded-full bg-brand-primary" />
+                <span className="text-xs font-bold uppercase tracking-wider text-brand-primary">Sambutan Resmi</span>
+              </div>
+              <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-slate-900 leading-tight">
+                Membangun Generasi <br />
+                <span className="text-brand-primary italic">Cerdas & Berkarakter</span>
+              </h2>
+            </div>
 
-        {/* Dekorasi lingkaran kecil kanan bawah */}
-        <div className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 w-10 h-10 md:w-14 md:h-14 rounded-full border-4 border-red-800 bg-red-900 z-20"></div>
+            <div className="relative pl-8 border-l-4 border-brand-primary/30">
+              <Quote className="absolute -left-3 -top-6 text-brand-primary/10 w-16 h-16 -z-10" />
+              <div className="space-y-4 text-slate-600 leading-relaxed text-lg italic">
+                <p>
+                  "Selamat datang di website resmi <strong>SMA Negeri 1 Bangunrejo</strong>. Kami berkomitmen untuk menghadirkan lingkungan belajar yang inovatif, disiplin, dan berlandaskan nilai-nilai karakter luhur."
+                </p>
+              </div>
+            </div>
 
-        {/* Dekorasi lingkaran kecil kiri bawah */}
-        <div className="absolute -bottom-2 -left-2 md:-bottom-4 md:-left-4 w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-red-800 bg-red-700 z-20"></div>
-      </RevealOnScroll>
+            <p className="text-slate-600 leading-relaxed">
+              Website ini hadir sebagai jembatan informasi dan komunikasi antara sekolah, siswa, orang tua, serta masyarakat luas. Mari kita bersinergi demi masa depan generasi bangsa yang unggul.
+            </p>
 
-      {/* Teks sambutan */}
-      <RevealOnScroll direction="right" rootMargin="0px 0px -10% 0px" delayClassName="delay-150" className="flex-1 text-gray-700 text-center md:text-left">
-        <h2 className="text-red-700 font-bold text-xl md:text-2xl mb-2">SAMBUTAN KEPALA SEKOLAH</h2>
-        <hr className="border-gray-300 mb-4 mx-auto md:mx-0 w-24 md:w-full" />
-        <p className="mb-4 text-sm md:text-base leading-relaxed">
-          Selamat datang di website <strong>SMA N 1 BANGUNREJO</strong> yang saya tujukan untuk seluruh unsur pimpinan, guru, karyawan, siswa, serta masyarakat umum agar dapat mengakses berbagai informasi tentang sekolah kami.
-        </p>
-        <p className="mb-4 text-sm md:text-base leading-relaxed">
-          Kami menyadari bahwa dalam penyajian informasi di website ini masih terdapat banyak kekurangan. Oleh karena itu, kami sangat terbuka terhadap saran dan kritik dari seluruh civitas akademika maupun masyarakat luas demi perbaikan
-          dan kemajuan sekolah ke depannya.
-        </p>
-        <p className="mb-6 text-sm md:text-base leading-relaxed">
-          Harapan saya, website ini dapat menjadi wahana interaksi yang positif, baik antar civitas akademika maupun dengan masyarakat pada umumnya, sehingga dapat mempererat jalinan silaturahmi di berbagai unsur. Mari kita bekerja dan
-          berkarya dengan penuh keikhlasan serta mengharap ridho Tuhan Yang Maha Esa demi masa depan generasi bangsa.
-        </p>
-        <p className="font-semibold text-sm md:text-base">
-          – LOREM
-          <br />
-          Kepala Sekolah SMA N 1 BANGUNREJO
-        </p>
-      </RevealOnScroll>
+            <div className="pt-4">
+              <Link 
+                href="/main/sambutan" 
+                className="group inline-flex items-center gap-3 bg-slate-900 hover:bg-brand-primary text-white px-8 py-4 rounded-xl font-bold transition-all hover:shadow-xl hover:shadow-brand-primary/20 active:scale-95"
+              >
+                Baca Sambutan Lengkap 
+                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </RevealOnScroll>
+        </div>
+      </div>
     </section>
   );
 }
