@@ -1,41 +1,70 @@
-import CountUp from "react-countup";
-import { Fragment } from "react";
-import { BookOpen, GraduationCap, School, Users } from "lucide-react";
-import { schoolStatsConfig } from "@/lib/homeData";
-import type { SchoolStat, StatIconKey } from "@/types/home";
+"use client";
 
-const statsIconMap: Record<StatIconKey, SchoolStat["icon"]> = {
+import CountUp from "react-countup";
+import { schoolStatsConfig } from "@/lib/homeData";
+import { GraduationCap, Users, BookOpen, UserCheck } from "lucide-react";
+import { useInViewOnce } from "@/hook/useInViewOnce";
+
+const iconMap = {
   students: Users,
-  teachers: School,
+  teachers: GraduationCap,
   programs: BookOpen,
-  alumni: GraduationCap,
+  alumni: UserCheck,
 };
 
-const schoolStats: SchoolStat[] = schoolStatsConfig.map((stat) => ({
-  label: stat.label,
-  value: stat.value,
-  icon: statsIconMap[stat.iconKey],
-}));
-
 export default function StatsSection() {
+  const { ref, isInView } = useInViewOnce({ threshold: 0.2 });
+
   return (
-    <div className=" relative w-full bg-slate-900 mt-16 md:mt-24 py-12 md:py-20 bg-[url('https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=1920&auto=format&fit=crop')] bg-cover bg-center bg-fixed">
-      {/* Background image dengan overlay */}
-      <div className="absolute inset-0 bg-black/70 "></div>
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 flex flex-wrap justify-center gap-8 md:justify-between text-white text-center">
-        {schoolStats.map((stat, index) => (
-          <Fragment key={stat.label}>
-            <div className="flex flex-col items-center w-32 md:w-auto">
-              <stat.icon className="w-7 h-7 md:w-8 md:h-8 mb-3 text-white/90" aria-hidden="true" />
-              <CountUp start={0} end={stat.value} duration={2.5} separator="," className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg" />
-              <span className="uppercase text-xs md:text-sm font-semibold mt-2 tracking-wider">{stat.label}</span>
-            </div>
-
-            {index < schoolStats.length - 1 && <div className="hidden md:block w-px bg-white/30 self-stretch"></div>}
-          </Fragment>
-        ))}
+    <section 
+      ref={ref}
+      className="relative py-24 overflow-hidden bg-brand-primary"
+    >
+      {/* Decorative Patterns */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
       </div>
-    </div>
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8">
+          {schoolStatsConfig.map((stat, index) => {
+            const Icon = iconMap[stat.iconKey as keyof typeof iconMap] || Users;
+            return (
+              <div key={index} className="flex flex-col items-center text-center space-y-4">
+                {/* Icon Container */}
+                <div className="relative">
+                  <div className="absolute -inset-4 bg-white/10 rounded-full animate-pulse" />
+                  <div className="relative w-16 h-16 md:w-20 md:h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 shadow-xl">
+                    <Icon className="w-8 h-8 md:w-10 md:h-10 text-white" />
+                  </div>
+                </div>
+
+                {/* Stats */}
+                <div className="space-y-1">
+                  <h3 className="text-4xl md:text-5xl font-heading font-extrabold text-white">
+                    {isInView ? (
+                      <CountUp end={stat.value} duration={2.5} />
+                    ) : (
+                      "0"
+                    )}
+                    <span className="text-brand-secondary">+</span>
+                  </h3>
+                  <p className="text-blue-100 font-medium uppercase tracking-widest text-xs md:text-sm">
+                    {stat.label}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }

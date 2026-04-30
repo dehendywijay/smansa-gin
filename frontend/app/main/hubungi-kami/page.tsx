@@ -1,69 +1,139 @@
-import Footer from "@/components/layout/footer";
 import Sidebar from "@/components/news/SideNews";
 import RevealOnScroll from "@/components/animations/RevealOnScroll";
-import PageBreadcrumb from "@/components/layout/PageBreadcrumb";
 import PageHero from "@/components/shared/PageHero";
+import { 
+  MapPin, 
+  Phone, 
+  Mail, 
+  Clock, 
+  Send,
+  MessageCircle,
+  ChevronDown
+} from "lucide-react";
 
 export default function ContactPage() {
+  const contactInfo = [
+    {
+      title: "Alamat",
+      detail: "Jl. Raya Sidorejo, Kec. Bangunrejo, Kab. Lampung Tengah",
+      icon: MapPin,
+    },
+    {
+      title: "Telepon",
+      detail: "+62 811-7970-1215",
+      icon: Phone,
+    },
+    {
+      title: "Email",
+      detail: "info@sman1bangunrejo.sch.id",
+      icon: Mail,
+    },
+    {
+      title: "Jam Layanan",
+      detail: "Senin - Jumat, 07.00 - 15.00 WIB",
+      icon: Clock,
+    },
+  ];
+
+  const faqs = [
+    {
+      q: "Bagaimana cara mendaftar peserta didik baru?",
+      a: "Silakan kunjungi menu PPDB atau hubungi panitia melalui nomor telepon yang tertera di jam operasional."
+    },
+    {
+      q: "Bagaimana menghubungi wali kelas?",
+      a: "Orang tua dapat menghubungi administrasi sekolah melalui telepon untuk diarahkan ke wali kelas terkait."
+    },
+    {
+      q: "Apakah sekolah menerima kunjungan studi?",
+      a: "Ya, silakan kirim surat permohonan resmi dan jadwal rencana kunjungan ke email sekolah."
+    }
+  ];
+
   return (
     <main className="bg-white min-h-screen">
-      <PageHero title="Contact Us" imageUrl="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1920&auto=format&fit=crop" alt="Hubungi Kami" />
-      <PageBreadcrumb items={[{ label: "Home", href: "/" }, { label: "Contact Us" }]} />
+      <PageHero 
+        title="Hubungi Kami" 
+        imageUrl="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1920&auto=format&fit=crop" 
+        alt="Hubungi Kami"
+        breadcrumbs={[{ label: "Hubungi Kami" }]}
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-10 max-w-7xl mx-auto px-6 py-10">
-        {/* Seluruh blok kontak & FAQ memakai animasi reusable agar konsisten lintas halaman. */}
-        <RevealOnScroll as="section" direction="up" rootMargin="0px 0px -10% 0px" className="md:col-span-3 text-gray-700">
-          <RevealOnScroll as="h2" direction="up" className="text-red-700 font-bold text-2xl mb-3">
-            Hubungi SMA N 1 Bangunrejo
-          </RevealOnScroll>
-          <RevealOnScroll direction="up" delayClassName="delay-100" className="mb-6">
-            <hr className="border-gray-300" />
-          </RevealOnScroll>
+      <div className="max-w-7xl mx-auto px-6 py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-16">
+          {/* Main Content */}
+          <section className="lg:col-span-3 space-y-20">
+            
+            {/* Info Cards */}
+            <div className="grid sm:grid-cols-2 gap-8">
+              {contactInfo.map((info, index) => (
+                <RevealOnScroll 
+                  key={index} 
+                  direction="up" 
+                  delayClassName={`delay-${index * 100}`}
+                  className="group flex gap-6 p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-xl transition-all duration-500"
+                >
+                  <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-brand-primary shrink-0 group-hover:bg-brand-primary group-hover:text-white transition-all duration-500">
+                    <info.icon size={28} />
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="font-heading font-bold text-lg text-slate-900">{info.title}</h3>
+                    <p className="text-slate-600 text-sm leading-relaxed">{info.detail}</p>
+                  </div>
+                </RevealOnScroll>
+              ))}
+            </div>
 
-          <div className="grid sm:grid-cols-2 gap-5 mb-8">
-            <RevealOnScroll direction="up" delayClassName="delay-150" className="border border-gray-200 rounded-lg p-5">
-              <h3 className="font-bold mb-2">Alamat</h3>
-              <p className="text-sm text-gray-600">Jl. Raya Sidorejo, Kec. Bangunrejo, Kab. Lampung Tengah</p>
-            </RevealOnScroll>
-            <RevealOnScroll direction="up" delayClassName="delay-200" className="border border-gray-200 rounded-lg p-5">
-              <h3 className="font-bold mb-2">Telepon</h3>
-              <p className="text-sm text-gray-600">(0721) 123456</p>
-            </RevealOnScroll>
-            <RevealOnScroll direction="up" delayClassName="delay-300" className="border border-gray-200 rounded-lg p-5">
-              <h3 className="font-bold mb-2">Email</h3>
-              <p className="text-sm text-gray-600">info@sman1bangunrejo.sch.id</p>
-            </RevealOnScroll>
-            <RevealOnScroll direction="up" delayClassName="delay-[380ms]" className="border border-gray-200 rounded-lg p-5">
-              <h3 className="font-bold mb-2">Jam Layanan</h3>
-              <p className="text-sm text-gray-600">Senin - Jumat, 07.00 - 15.00 WIB</p>
-            </RevealOnScroll>
-          </div>
+            {/* Contact Form & FAQ */}
+            <div className="grid md:grid-cols-2 gap-16">
+              {/* Form */}
+              <RevealOnScroll direction="left" className="space-y-8">
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-heading font-extrabold text-slate-900">Kirim Pesan</h3>
+                  <p className="text-slate-500 text-sm">Punya pertanyaan? Kirim pesan langsung kepada tim kami.</p>
+                </div>
+                <form className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="Nama Lengkap" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-primary transition-colors text-sm" />
+                    <input type="email" placeholder="Email" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-primary transition-colors text-sm" />
+                  </div>
+                  <input type="text" placeholder="Subjek" className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-primary transition-colors text-sm" />
+                  <textarea placeholder="Pesan Anda" rows={5} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-primary transition-colors text-sm" />
+                  <button className="w-full bg-brand-primary hover:bg-brand-primary-dark text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-brand-primary/20 flex items-center justify-center gap-2 group">
+                    Kirim Sekarang <Send size={18} className="group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </form>
+              </RevealOnScroll>
 
-          <RevealOnScroll as="h3" direction="up" delayClassName="delay-[420ms]" className="text-xl font-bold mb-4">
-            Pertanyaan Umum (FAQ)
-          </RevealOnScroll>
-          <div className="space-y-3 text-sm text-gray-600">
-            <RevealOnScroll as="p" direction="up" delayClassName="delay-[460ms]">
-              <strong>Bagaimana cara mendaftar peserta didik baru?</strong>
-              <br />
-              Silakan kunjungi menu PPDB atau hubungi panitia melalui kontak sekolah.
-            </RevealOnScroll>
-            <RevealOnScroll as="p" direction="up" delayClassName="delay-[520ms]">
-              <strong>Bagaimana menghubungi wali kelas?</strong>
-              <br />
-              Orang tua dapat menghubungi administrasi sekolah untuk diarahkan ke wali kelas terkait.
-            </RevealOnScroll>
-            <RevealOnScroll as="p" direction="up" delayClassName="delay-[580ms]">
-              <strong>Apakah sekolah menerima kunjungan studi?</strong>
-              <br />
-              Ya, silakan kirim surat resmi dan jadwal kunjungan ke email sekolah.
-            </RevealOnScroll>
-          </div>
-        </RevealOnScroll>
+              {/* FAQ */}
+              <RevealOnScroll direction="right" className="space-y-8">
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-heading font-extrabold text-slate-900">FAQ</h3>
+                  <p className="text-slate-500 text-sm">Pertanyaan yang sering diajukan oleh masyarakat.</p>
+                </div>
+                <div className="space-y-4">
+                  {faqs.map((faq, i) => (
+                    <div key={i} className="p-6 rounded-2xl bg-white border border-slate-100 hover:border-brand-primary/30 transition-colors shadow-sm space-y-3">
+                      <div className="flex items-center justify-between gap-4">
+                        <h4 className="font-bold text-slate-900 text-sm">{faq.q}</h4>
+                        <ChevronDown size={16} className="text-slate-400" />
+                      </div>
+                      <p className="text-slate-600 text-sm leading-relaxed">{faq.a}</p>
+                    </div>
+                  ))}
+                </div>
+              </RevealOnScroll>
+            </div>
 
-        <RevealOnScroll as="div" direction="up" delayClassName="delay-150" rootMargin="0px 0px -10% 0px">
-          <Sidebar />
-        </RevealOnScroll>
+          </section>
+
+          {/* Sidebar */}
+          <aside className="lg:col-span-1">
+            <RevealOnScroll direction="left" delayClassName="delay-300">
+              <Sidebar />
+            </RevealOnScroll>
+          </aside>
+        </div>
       </div>
     </main>
   );

@@ -2,58 +2,70 @@
 import { useState } from "react";
 import Link from "next/link";
 import { MenuItem } from "@/types/type";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 type Props = {
   menu: MenuItem;
+  isScrolled?: boolean;
 };
 
-export default function NavItem({ menu }: Props) {
+export default function NavItem({ menu, isScrolled }: Props) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="relative group" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
-      <Link href={menu.href} className="flex items-center gap-1 px-3 py-6 hover:text-blue-900 transition-colors duration-200">
-        {menu.title}
+    <div 
+      className="relative group" 
+      onMouseEnter={() => setOpen(true)} 
+      onMouseLeave={() => setOpen(false)}
+    >
+      <Link 
+        href={menu.href} 
+        className={`flex items-center gap-1.5 px-4 py-5 rounded-lg transition-all duration-300 ${
+          isScrolled 
+            ? "hover:text-brand-primary hover:bg-brand-surface-alt" 
+            : "hover:text-white hover:bg-white/10"
+        }`}
+      >
+        <span>{menu.title}</span>
         {menu.subItems && (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={`ml-1 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
-          >
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
+          <ChevronDown 
+            size={14} 
+            className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+          />
         )}
       </Link>
 
-      {/* Dropdown */}
-      {menu.subItems && open && (
-        <div className="absolute left-0 top-full w-56 z-50 pt-2">
-          {/* Arrow pointer */}
-          <div className="absolute top-1 left-8 w-4 h-4 bg-white rotate-45 border-l border-t border-gray-100 rounded-sm"></div>
+      {/* Dropdown with Framer Motion */}
+      <AnimatePresence>
+        {menu.subItems && open && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="absolute left-0 top-full w-64 z-50 pt-2"
+          >
+            {/* Arrow pointer */}
+            <div className="absolute top-1 left-10 w-3 h-3 bg-white rotate-45 border-l border-t border-slate-100/50 shadow-sm"></div>
 
-          {/* Dropdown menu */}
-          <div className="bg-white text-[#1f2937] rounded-md shadow-lg border border-gray-100 relative rounded-tl-md">
-            {menu.subItems.map((item, idx, items) => (
-              <Link
-                key={idx}
-                href={item.href}
-                className={`block px-5 py-3.5 text-sm font-medium hover:text-blue-900 transition-colors bg-white hover:bg-slate-50 ${
-                  idx !== items.length - 1 ? "border-b border-gray-100/50" : ""
-                } ${idx === 0 ? "rounded-t-md" : ""} ${idx === items.length - 1 ? "rounded-b-md" : ""}`}
-              >
-                {item.title}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+            {/* Dropdown menu */}
+            <div className="bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden relative">
+              <div className="py-2">
+                {menu.subItems.map((item, idx) => (
+                  <Link
+                    key={idx}
+                    href={item.href}
+                    className="block px-5 py-3 text-sm font-medium text-slate-600 hover:text-brand-primary hover:bg-brand-surface-alt transition-colors"
+                  >
+                    {item.title}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

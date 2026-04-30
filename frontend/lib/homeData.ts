@@ -29,3 +29,26 @@ export const schoolStatsConfig: SchoolStatConfig[] = [
   { label: "Program Studi", value: 4, iconKey: "programs" },
   { label: "Total Alumni", value: 642, iconKey: "alumni" },
 ];
+
+export const teachersData = [
+  {
+    name: "Henrican Purba, M.Pd.",
+    role: "Kepala Sekolah",
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop",
+  },
+  {
+    name: "Drs. Budi Santoso",
+    role: "Waka Kurikulum",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop",
+  },
+  {
+    name: "Siti Aminah, S.Pd.",
+    role: "Guru Matematika",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400&auto=format&fit=crop",
+  },
+  {
+    name: "Ahmad Zaki, S.Kom.",
+    role: "Guru Informatika",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop",
+  },
+];

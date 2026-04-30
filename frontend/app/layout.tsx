@@ -1,21 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-heading",
   subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "SMA Negri 1 Bangunrejo",
-  description: "Website resmi SMA Negri 1 Bangunrejo, menyediakan informasi lengkap tentang sekolah, berita terbaru.",
+  title: "SMA Negeri 1 Bangunrejo",
+  description:
+    "Website resmi SMA Negeri 1 Bangunrejo, menyediakan informasi lengkap tentang sekolah, berita terbaru, dan kegiatan akademik.",
 };
 
 export default function RootLayout({
@@ -24,10 +28,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="id">
+      <body
+        className={`${plusJakarta.variable} ${inter.variable} antialiased`}
+      >
         {children}
-        <Toaster position="top-center" style={{ background: "#33333" }} />
+        <Toaster position="top-center" />
       </body>
     </html>
   );
