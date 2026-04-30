@@ -12,10 +12,11 @@ func NewsRoute(r *gin.Engine) {
 		news.GET("", controllers.GetNews)
 		news.GET("/", controllers.GetNews)
 		news.GET("/:slug", controllers.GetNewsByID)
+		news.POST("", controllers.CreateNews)
 	}
 	news.Use(middleware.AuthMiddleware())
 	{
-		news.POST("", controllers.CreateNews)
+		
 		news.PUT("/:slug", controllers.UpdateNews)
 		news.DELETE("/:slug", controllers.DeleteNews)
 	}
