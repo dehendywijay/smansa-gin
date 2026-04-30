@@ -19,6 +19,12 @@ func NewsRoute(r *gin.Engine) {
 		news.PUT("/:slug", controllers.UpdateNews)
 		news.DELETE("/:slug", controllers.DeleteNews)
 	}
+
+	detail := r.Group("/api/detail")
+	{
+		detail.POST("/kepala-sekolah", controllers.CreateKepalaSekolah)
+		detail.PUT("/kepala-sekolah/:id", controllers.EditKepalaSekolah)
+	}
 }
 
 func AuthRoute(r *gin.Engine) {
