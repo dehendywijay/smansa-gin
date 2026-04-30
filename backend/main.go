@@ -15,10 +15,12 @@ func main() {
 	r := gin.Default()
 	r.Use(middleware.CORSMiddleware())
 
+
 	config.ConnectDB()
-	config.DB.AutoMigrate(&models.News{})
+	config.DB.AutoMigrate(&models.News{}, &models.Admin{})
 	
 	routes.NewsRoute(r)
+	routes.AuthRoute(r)
 
 	port := os.Getenv("PORT")
 	if port == "" {
