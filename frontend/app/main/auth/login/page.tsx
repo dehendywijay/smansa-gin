@@ -21,14 +21,14 @@ export default function LoginPage() {
     <div className="min-h-screen flex bg-slate-50">
       {/* Left Side: Visual Branding (Hidden on Mobile) */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-brand-primary overflow-hidden">
-        <Image 
-          src="https://images.unsplash.com/photo-1523050853063-8806950117d4?q=80&w=1920&auto=format&fit=crop" 
-          alt="School" 
-          fill 
+        <Image
+          src="https://images.unsplash.com/photo-1523050853063-8806950117d4?q=80&w=1920&auto=format&fit=crop"
+          alt="School"
+          fill
           className="object-cover opacity-40 mix-blend-overlay scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-brand-primary via-brand-primary/80 to-brand-primary-dark" />
-        
+
         <div className="relative z-10 w-full h-full flex flex-col justify-between p-16 text-white">
           <Link href="/" className="flex items-center gap-3">
             <Image src="/img/logo-smansa.png" alt="Logo" width={50} height={50} className="brightness-200" />
@@ -72,12 +72,12 @@ export default function LoginPage() {
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-bold text-slate-700 ml-1">Email / Username</label>
+                <label className="text-sm font-bold text-slate-700 ml-1">Username</label>
                 <div className="relative group">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors" size={20} />
-                  <input 
-                    type="text" 
-                    placeholder="admin@smansa.sch.id"
+                  <input
+                    type="text"
+                    placeholder="Masukkan Username Anda"
                     className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -90,8 +90,8 @@ export default function LoginPage() {
                 <label className="text-sm font-bold text-slate-700 ml-1">Password</label>
                 <div className="relative group">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors" size={20} />
-                  <input 
-                    type="password" 
+                  <input
+                    type="password"
                     placeholder="••••••••"
                     className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-brand-primary/10 focus:border-brand-primary transition-all"
                     value={password}
@@ -110,8 +110,8 @@ export default function LoginPage() {
               <Link href="#" className="text-brand-primary font-bold hover:underline">Lupa Password?</Link>
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="w-full bg-brand-primary hover:bg-brand-primary-dark text-white py-4 rounded-2xl font-bold transition-all shadow-xl shadow-brand-primary/20 hover:shadow-brand-primary/40 flex items-center justify-center gap-2 group active:scale-[0.98]"
             >
               Masuk Sekarang
