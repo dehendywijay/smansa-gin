@@ -2,14 +2,14 @@
 
 import Sidebar from "@/components/news/SideNews";
 import RevealOnScroll from "@/components/animations/RevealOnScroll";
-import PageBreadcrumb from "@/components/layout/PageBreadcrumb";
 import PageHero from "@/components/shared/PageHero";
-import { api, api_base, api_images } from "@/constans/strings";
+import SkeletonCard from "@/components/shared/SkeletonCard";
+import { api_images } from "@/constans/strings";
 import { useNews } from "@/hook/useNews";
-import { formatDate } from "@/lib/date";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { Calendar, User, ArrowRight, Grid, List } from "lucide-react";
 
 export default function NewsList() {
   const { news: newsList, loading, error } = useNews();
@@ -17,149 +17,111 @@ export default function NewsList() {
   return (
     <main className="bg-white min-h-screen">
       <PageHero
-        title="Berita Terbaru"
-        imageUrl="./img/1.jpg"
+        title="Berita & Informasi"
+        imageUrl="https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1920&auto=format&fit=crop"
         alt="Hero Background"
-        heightClassName="h-80"
-      />
-      <PageBreadcrumb
-        items={[{ label: "Home", href: "/" }, { label: "Berita Terbaru" }]}
+        breadcrumbs={[{ label: "Berita" }]}
       />
 
-      <section className="grid grid-cols-1 md:grid-cols-4 gap-10 max-w-7xl mx-auto px-6 py-10">
-        <div className="md:col-span-3">
-          {/* Controls Bar */}
-          <RevealOnScroll
-            direction="up"
-            className="flex items-center justify-between bg-gray-50 p-3 mb-8 border border-gray-100"
-          >
-            <div className="flex items-center gap-2 text-red-600">
-              <button className="p-1 hover:bg-gray-200 rounded">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="3" y="3" width="7" height="7"></rect>
-                  <rect x="14" y="3" width="7" height="7"></rect>
-                  <rect x="14" y="14" width="7" height="7"></rect>
-                  <rect x="3" y="14" width="7" height="7"></rect>
-                </svg>
-              </button>
-              <button className="p-1 hover:bg-gray-200 rounded text-gray-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="8" y1="6" x2="21" y2="6"></line>
-                  <line x1="8" y1="12" x2="21" y2="12"></line>
-                  <line x1="8" y1="18" x2="21" y2="18"></line>
-                  <line x1="3" y1="6" x2="3.01" y2="6"></line>
-                  <line x1="3" y1="12" x2="3.01" y2="12"></line>
-                  <line x1="3" y1="18" x2="3.01" y2="18"></line>
-                </svg>
-              </button>
-              <span className="ml-4 text-sm text-gray-500">
-                Showing 1-{Math.min(newsList.length, 10)} of {newsList.length}{" "}
-                results
-              </span>
-            </div>
-          </RevealOnScroll>
+      <div className="max-w-7xl mx-auto px-6 py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-16">
+          <section className="lg:col-span-3 space-y-12">
+            
+            {/* Filter Bar */}
+            <RevealOnScroll direction="up" className="flex items-center justify-between py-6 border-b border-slate-100">
+              <div className="flex items-center gap-4">
+                <span className="text-sm font-medium text-slate-500">
+                  Menampilkan <span className="text-slate-900 font-bold">{loading ? "..." : newsList.length}</span> berita terbaru
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button className="p-2 rounded-lg bg-brand-primary text-white shadow-lg shadow-brand-primary/20">
+                  <Grid size={20} />
+                </button>
+                <button className="p-2 rounded-lg bg-slate-50 text-slate-400 hover:text-brand-primary transition-colors">
+                  <List size={20} />
+                </button>
+              </div>
+            </RevealOnScroll>
 
-          {/* News List */}
-          {loading ? (
-            <RevealOnScroll as="p" direction="up" className="text-gray-600">
-              Loading news...
-            </RevealOnScroll>
-          ) : error ? (
-            <RevealOnScroll as="p" direction="up" className="text-red-600">
-              {error}
-            </RevealOnScroll>
-          ) : (
+            {/* News List */}
             <div className="space-y-12">
-              {newsList.map((post, index) => (
-                <RevealOnScroll
-                  as="article"
-                  key={post.ID}
-                  direction="up"
-                  className="grid grid-cols-1 md:grid-cols-3 gap-6"
-                  style={{ transitionDelay: `${Math.min(index * 90, 450)}ms` }}
-                >
-                  <div className="relative h-48 md:h-auto w-full group overflow-hidden">
-                    {post.thumbnail ? (
-                      <Link href={`/main/berita/${post.slug}`}>
+              {loading ? (
+                <div className="grid md:grid-cols-2 gap-8">
+                  {[1, 2, 4, 5].map((i) => <SkeletonCard key={i} />)}
+                </div>
+              ) : error ? (
+                <div className="p-12 text-center bg-red-50 rounded-3xl border border-red-100">
+                  <p className="text-red-600 font-bold">{error}</p>
+                </div>
+              ) : (
+                <div className="grid gap-12">
+                  {newsList.map((post, index) => (
+                    <RevealOnScroll
+                      key={post.ID}
+                      direction="up"
+                      delayClassName={`delay-${(index % 3) * 100}`}
+                      className="group flex flex-col md:flex-row gap-8 bg-white rounded-[32px] p-4 border border-transparent hover:border-brand-primary/10 hover:shadow-2xl transition-all duration-500"
+                    >
+                      {/* Image */}
+                      <div className="relative w-full md:w-72 h-64 shrink-0 rounded-3xl overflow-hidden shadow-lg">
                         <Image
-                          src={post.thumbnail}
+                          src={post.thumbnail?.startsWith('http') ? post.thumbnail : `${api_images}/${post.thumbnail}`}
                           alt={post.title}
                           fill
-                          className="object-cover group-hover:scale-105 transition duration-500"
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
                         />
-                      </Link>
-                    ) : (
-                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                        No Image
+                        <div className="absolute top-4 left-4">
+                          <span className="px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-brand-primary text-[10px] font-bold uppercase tracking-wider">
+                            Informasi
+                          </span>
+                        </div>
                       </div>
-                    )}
-                  </div>
-                  <div className="md:col-span-2 flex flex-col justify-center">
-                    <h2 className="text-xl font-bold text-gray-900 hover:text-red-700 transition lg:text-2xl mb-3">
-                      <Link href={`/main/berita/${post.slug}`}>{post.title}</Link>
-                    </h2>
-                    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs md:text-sm text-gray-500 mb-4 font-semibold">
-                      <div className="flex items-center gap-2">
-                        <span className="text-gray-400 font-light">
-                          Posted by
-                        </span>
-                        <span className="text-gray-800">Admin</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-gray-400 font-light">
-                          Categories
-                        </span>
-                        <span className="text-gray-800">
-                          Berita Terbaru, Info
-                        </span>
-                      </div>
-                    </div>
-                    <div className="text-sm text-gray-800 mb-4 font-bold">
-                      {formatDate(post.createdAt)}
-                    </div>
-                    <p
-                      className="text-gray-600 line-clamp-3 leading-relaxed text-sm md:text-base"
-                      dangerouslySetInnerHTML={{
-                        __html: post.content || "No excerpt available...",
-                      }}
-                    />
-                  </div>
-                </RevealOnScroll>
-              ))}
-            </div>
-          )}
-        </div>
 
-        {/* Sidebar */}
-        <RevealOnScroll
-          as="div"
-          direction="up"
-          delayClassName="delay-150"
-          className="md:col-span-1"
-        >
-          <Sidebar />
-        </RevealOnScroll>
-      </section>
+                      {/* Content */}
+                      <div className="flex-1 py-4 space-y-4 pr-4">
+                        <div className="flex items-center gap-4 text-xs font-medium text-slate-500 uppercase tracking-widest">
+                          <div className="flex items-center gap-1.5">
+                            <Calendar size={14} className="text-brand-primary" />
+                            {post.CreatedAt ? new Date(post.CreatedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : "-"}
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <User size={14} className="text-brand-primary" />
+                            Admin
+                          </div>
+                        </div>
+
+                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 group-hover:text-brand-primary transition-colors leading-tight">
+                          <Link href={`/main/berita/${post.slug}`}>{post.title}</Link>
+                        </h2>
+
+                        <div
+                          className="text-slate-600 line-clamp-3 leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: post.content || "" }}
+                        />
+
+                        <Link 
+                          href={`/main/berita/${post.slug}`}
+                          className="inline-flex items-center gap-2 text-brand-primary font-bold hover:translate-x-1 transition-transform pt-2"
+                        >
+                          Baca Selengkapnya <ArrowRight size={18} />
+                        </Link>
+                      </div>
+                    </RevealOnScroll>
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* Sidebar */}
+          <aside className="lg:col-span-1">
+            <RevealOnScroll direction="left" delayClassName="delay-300">
+              <Sidebar />
+            </RevealOnScroll>
+          </aside>
+        </div>
+      </div>
     </main>
   );
 }
