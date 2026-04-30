@@ -5,118 +5,130 @@ import (
 	"gin-app/services"
 	"gin-app/utility"
 	"net/http"
-	
+
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v4"
 )
 
+func CreateNews(c *gin.Context) {
+	title := c.PostForm("title")
+	content := c.PostForm("content")
 
-var refreshSecret = []byte("REFRESH_SECRET_KEY")
-
-func LoginAdmin(c *gin.Context) {
-	// username := c.PostForm("username")
-	// password := c.PostForm("password")
-	var adminInput models.Admin
-
-	if err := c.ShouldBindJSON(&adminInput); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"})
+	if title == "" || content == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "title and content are required"})
 		return
 	}
 
-	username := adminInput.Username
-	password := adminInput.Password
-
-	if username == "" || password == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "username and password are required"})
-		return
-	}
-
-	admin, err := services.LoginAdmin(username, password)
+	fileBytes, objectPath, contentType, err := utility.ProcessImageUpload(c, "image")
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid username or password"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.SetCookie(
-		"refresh_token",
-		admin.RefreshToken,
-		7*24*60*60, // 7 hari
-		"/",
-		"localhost",
-		false, // true kalau pakai HTTPS
-		true,  // HttpOnly
-	)
-
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Login successful",
-		"data": map[string]interface{}{
-			"access_token": admin.AccessToken,
-			"username":     admin.Username,
-		},
-	})
-}
-
-func CreateAdmin(c *gin.Context) {
-	var adminInput models.Admin
-
-	if err := c.ShouldBindJSON(&adminInput); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"})
+	publicURL, err := services.UploadToSupabase("image_thumbnail", objectPath, contentType, fileBytes)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	username := adminInput.Username
-	password := adminInput.Password
+	slug := utility.MakeSlug(title)
 
-	if username == "" || password == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "username and password are required"})
-		return
+	news := models.News{
+		Title:     title,
+		Content:   content,
+		Thumbnail: publicURL,
+		Slug:      slug,
 	}
 
-	admin, err := services.CreateAdmin(username, password)
+	result, err := services.CreateNews(news)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Admin berhasil dibuat",
-		"data":    admin,
+		"message": "Berita berhasil dibuat",
+		"data":    result,
 	})
 }
 
-func RefreshToken(c *gin.Context) {
-	refreshToken, err := c.Cookie("refresh_token")
+func GetNews(c *gin.Context) {
+	result, err := services.GetNews()
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "refresh token tidak ditemukan"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	token, err := jwt.Parse(refreshToken, func(token *jwt.Token) (interface{}, error) {
-		return refreshSecret, nil
-	})
+	c.JSON(http.StatusOK, result)
+}
 
-	if err != nil || !token.Valid {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "refresh token tidak valid"})
-		return
-	}
+func GetNewsByID(c *gin.Context) {
+	slug := c.Param("slug")
 
-	claims, ok := token.Claims.(jwt.MapClaims)
-	if !ok || claims["type"] != "refresh" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "token bukan refresh token"})
-		return
-	}
-
-	userIDFloat := claims["user_id"].(float64)
-	userID := uint(userIDFloat)
-
-	newAccessToken, err := utility.GenerateAccessToken(userID)
+	result, err := services.GetNewsByID(slug)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "gagal membuat access token baru"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, result)
+}
+
+func UpdateNews(c *gin.Context) {
+	slug := c.Param("slug")
+	title := c.PostForm("title")
+	content := c.PostForm("content")
+
+	if title == "" || content == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "title and content are required"})
+		return
+	}
+
+	news := models.News{
+		Title:   title,
+		Content: content,
+		Slug:    utility.MakeSlug(title),
+	}
+
+	file, _ := c.FormFile("image")
+	if file != nil {
+		fileBytes, objectPath, contentType, err := utility.ProcessImageUpload(c, "image")
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		publicURL, err := services.UploadToSupabase("image_thumbnail", objectPath, contentType, fileBytes)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		news.Thumbnail = publicURL
+	}
+
+	result, err := services.UpdateNews(slug, news)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"access_token": newAccessToken,
+		"message": "Berita berhasil diperbarui",
+		"data":    result,
+	})
+}
+
+func DeleteNews(c *gin.Context) {
+	slug := c.Param("slug")
+
+	err := services.DeleteNews(slug)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Berita berhasil dihapus",
 	})
 }

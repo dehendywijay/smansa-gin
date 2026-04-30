@@ -1,53 +1,46 @@
 package services
 
 import (
-	"errors"
 	"gin-app/config"
-	"gin-app/dto"
 	"gin-app/models"
-	"gin-app/utility"
+
 )
 
-func LoginAdmin(username, password string) (dto.AdminDTO, error) {
-	var admin models.Admin
 
-	err := config.DB.Where("username = ?", username).First(&admin).Error
-	if err != nil {
-		return dto.AdminDTO{}, errors.New("Data tidak ada")
-	}
-
-	if !utility.CheckPassword(admin.Password, password) {
-		return dto.AdminDTO{}, errors.New("invalid password")
-	}
-
-	accessToken, err := utility.GenerateAccessToken(admin.ID)
-	if err != nil {
-		return dto.AdminDTO{}, err
-	}
-
-	refreshToken, err := utility.GenerateRefreshToken(admin.ID)
-	if err != nil {
-		return dto.AdminDTO{}, err
-	}
-
-	return dto.AdminDTO{
-		Username:     admin.Username,
-		AccessToken:  accessToken,
-		RefreshToken: refreshToken,
-	}, nil
+func CreateNews(data models.News) (models.News, error) {
+	err := config.DB.Create(&data).Error
+	return data, err
 }
 
-func CreateAdmin(username, password string) (dto.AdminDTO, error) {
-	hashedPassword, err := utility.HashPassword(password)
+func GetNews() ([]models.News, error) {
+	var news []models.News
+	err := config.DB.Order("created_at DESC").Find(&news).Error
+	return news, err
+}
+
+func GetNewsByID(slug string) (models.News, error) {
+	var news models.News
+
+	err := config.DB.Where("slug = ?", slug).First(&news).Error
+	
+	return news, err
+}
+
+func UpdateNews(slug string, data models.News) (models.News, error) {
+	var news models.News
+	err := config.DB.Where("slug = ?", slug).First(&news).Error
 	if err != nil {
-		return dto.AdminDTO{}, err
+		return news, err
 	}
+	err = config.DB.Model(&news).Updates(data).Error
+	return news, err
+}
 
-	admin := models.Admin{
-		Username: username,
-		Password: hashedPassword,
+func DeleteNews(slug string) error {
+	var news models.News
+	err := config.DB.Where("slug = ?", slug).First(&news).Error
+	if err != nil {
+		return err
 	}
-
-	err = config.DB.Create(&admin).Error
-	return dto.AdminDTO{Username: admin.Username}, err
+	return config.DB.Delete(&news).Error
 }
