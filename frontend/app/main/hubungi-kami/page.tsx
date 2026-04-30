@@ -1,11 +1,11 @@
 import Sidebar from "@/components/news/SideNews";
 import RevealOnScroll from "@/components/animations/RevealOnScroll";
 import PageHero from "@/components/shared/PageHero";
-import { 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Clock, 
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
   Send,
   MessageCircle,
   ChevronDown
@@ -34,27 +34,25 @@ export default function ContactPage() {
       icon: Clock,
     },
   ];
-
-  const faqs = [
-    {
-      q: "Bagaimana cara mendaftar peserta didik baru?",
-      a: "Silakan kunjungi menu PPDB atau hubungi panitia melalui nomor telepon yang tertera di jam operasional."
-    },
-    {
-      q: "Bagaimana menghubungi wali kelas?",
-      a: "Orang tua dapat menghubungi administrasi sekolah melalui telepon untuk diarahkan ke wali kelas terkait."
-    },
-    {
-      q: "Apakah sekolah menerima kunjungan studi?",
-      a: "Ya, silakan kirim surat permohonan resmi dan jadwal rencana kunjungan ke email sekolah."
-    }
-  ];
+  //   {
+  //     q: "Bagaimana cara mendaftar peserta didik baru?",
+  //     a: "Silakan kunjungi menu PPDB atau hubungi panitia melalui nomor telepon yang tertera di jam operasional."
+  //   },
+  //   {
+  //     q: "Bagaimana menghubungi wali kelas?",
+  //     a: "Orang tua dapat menghubungi administrasi sekolah melalui telepon untuk diarahkan ke wali kelas terkait."
+  //   },
+  //   {
+  //     q: "Apakah sekolah menerima kunjungan studi?",
+  //     a: "Ya, silakan kirim surat permohonan resmi dan jadwal rencana kunjungan ke email sekolah."
+  //   }
+  // ];
 
   return (
     <main className="bg-white min-h-screen">
-      <PageHero 
-        title="Hubungi Kami" 
-        imageUrl="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1920&auto=format&fit=crop" 
+      <PageHero
+        title="Hubungi Kami"
+        imageUrl="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1920&auto=format&fit=crop"
         alt="Hubungi Kami"
         breadcrumbs={[{ label: "Hubungi Kami" }]}
       />
@@ -63,13 +61,13 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-16">
           {/* Main Content */}
           <section className="lg:col-span-3 space-y-20">
-            
+
             {/* Info Cards */}
             <div className="grid sm:grid-cols-2 gap-8">
               {contactInfo.map((info, index) => (
-                <RevealOnScroll 
-                  key={index} 
-                  direction="up" 
+                <RevealOnScroll
+                  key={index}
+                  direction="up"
                   delayClassName={`delay-${index * 100}`}
                   className="group flex gap-6 p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-xl transition-all duration-500"
                 >
@@ -105,24 +103,7 @@ export default function ContactPage() {
                 </form>
               </RevealOnScroll>
 
-              {/* FAQ */}
-              <RevealOnScroll direction="right" className="space-y-8">
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-heading font-extrabold text-slate-900">FAQ</h3>
-                  <p className="text-slate-500 text-sm">Pertanyaan yang sering diajukan oleh masyarakat.</p>
-                </div>
-                <div className="space-y-4">
-                  {faqs.map((faq, i) => (
-                    <div key={i} className="p-6 rounded-2xl bg-white border border-slate-100 hover:border-brand-primary/30 transition-colors shadow-sm space-y-3">
-                      <div className="flex items-center justify-between gap-4">
-                        <h4 className="font-bold text-slate-900 text-sm">{faq.q}</h4>
-                        <ChevronDown size={16} className="text-slate-400" />
-                      </div>
-                      <p className="text-slate-600 text-sm leading-relaxed">{faq.a}</p>
-                    </div>
-                  ))}
-                </div>
-              </RevealOnScroll>
+
             </div>
 
           </section>

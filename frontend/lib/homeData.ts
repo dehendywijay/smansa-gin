@@ -32,7 +32,7 @@ export const schoolStatsConfig: SchoolStatConfig[] = [
 
 export const teachersData = [
   {
-    name: "Henrican Purba, M.Pd.",
+    name: "Muhammad Zaenudin, S.Pd.",
     role: "Kepala Sekolah",
     image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop",
   },
@@ -50,5 +50,25 @@ export const teachersData = [
     name: "Ahmad Zaki, S.Kom.",
     role: "Guru Informatika",
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop",
+  },
+  {
+    name: "Maya Sari, M.Pd.",
+    role: "Guru Bahasa Indonesia",
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop",
+  },
+  {
+    name: "Rizky Pratama, S.Pd.",
+    role: "Guru PJOK",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
+  },
+  {
+    name: "Dewi Lestari, S.Si.",
+    role: "Guru Biologi",
+    image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=400&auto=format&fit=crop",
+  },
+  {
+    name: "Andi Wijaya, S.E.",
+    role: "Kepala Tata Usaha",
+    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop",
   },
 ];

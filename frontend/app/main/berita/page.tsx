@@ -8,11 +8,12 @@ import { api_images } from "@/constans/strings";
 import { useNews } from "@/hook/useNews";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { useState } from "react";
 import { Calendar, User, ArrowRight, Grid, List } from "lucide-react";
 
 export default function NewsList() {
   const { news: newsList, loading, error } = useNews();
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   
   return (
     <main className="bg-white min-h-screen">
@@ -35,10 +36,16 @@ export default function NewsList() {
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <button className="p-2 rounded-lg bg-brand-primary text-white shadow-lg shadow-brand-primary/20">
+                <button 
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 rounded-lg transition-all duration-300 ${viewMode === 'grid' ? "bg-brand-primary text-white shadow-lg shadow-brand-primary/20" : "bg-slate-50 text-slate-400 hover:text-brand-primary"}`}
+                >
                   <Grid size={20} />
                 </button>
-                <button className="p-2 rounded-lg bg-slate-50 text-slate-400 hover:text-brand-primary transition-colors">
+                <button 
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 rounded-lg transition-all duration-300 ${viewMode === 'list' ? "bg-brand-primary text-white shadow-lg shadow-brand-primary/20" : "bg-slate-50 text-slate-400 hover:text-brand-primary"}`}
+                >
                   <List size={20} />
                 </button>
               </div>
@@ -47,7 +54,7 @@ export default function NewsList() {
             {/* News List */}
             <div className="space-y-12">
               {loading ? (
-                <div className="grid md:grid-cols-2 gap-8">
+                <div className={`grid gap-8 ${viewMode === 'grid' ? "md:grid-cols-2" : "grid-cols-1"}`}>
                   {[1, 2, 4, 5].map((i) => <SkeletonCard key={i} />)}
                 </div>
               ) : error ? (
@@ -55,16 +62,20 @@ export default function NewsList() {
                   <p className="text-red-600 font-bold">{error}</p>
                 </div>
               ) : (
-                <div className="grid gap-12">
+                <div className={`grid gap-8 ${viewMode === 'grid' ? "md:grid-cols-2 lg:gap-10" : "grid-cols-1 lg:gap-12"}`}>
                   {newsList.map((post, index) => (
                     <RevealOnScroll
                       key={post.ID}
                       direction="up"
                       delayClassName={`delay-${(index % 3) * 100}`}
-                      className="group flex flex-col md:flex-row gap-8 bg-white rounded-[32px] p-4 border border-transparent hover:border-brand-primary/10 hover:shadow-2xl transition-all duration-500"
+                      className={`group flex bg-white rounded-[32px] p-4 border border-transparent hover:border-brand-primary/10 hover:shadow-2xl transition-all duration-500 ${
+                        viewMode === 'list' ? "flex-col md:flex-row gap-8" : "flex-col gap-6"
+                      }`}
                     >
                       {/* Image */}
-                      <div className="relative w-full md:w-72 h-64 shrink-0 rounded-3xl overflow-hidden shadow-lg">
+                      <div className={`relative shrink-0 rounded-3xl overflow-hidden shadow-lg ${
+                        viewMode === 'list' ? "w-full md:w-72 h-64" : "w-full h-60"
+                      }`}>
                         <Image
                           src={post.thumbnail?.startsWith('http') ? post.thumbnail : `${api_images}/${post.thumbnail}`}
                           alt={post.title}
@@ -79,7 +90,7 @@ export default function NewsList() {
                       </div>
 
                       {/* Content */}
-                      <div className="flex-1 py-4 space-y-4 pr-4">
+                      <div className={`flex-1 space-y-4 ${viewMode === 'list' ? "py-4 pr-4" : "p-2"}`}>
                         <div className="flex items-center gap-4 text-xs font-medium text-slate-500 uppercase tracking-widest">
                           <div className="flex items-center gap-1.5">
                             <Calendar size={14} className="text-brand-primary" />
@@ -91,18 +102,20 @@ export default function NewsList() {
                           </div>
                         </div>
 
-                        <h2 className="text-2xl md:text-3xl font-heading font-extrabold text-slate-900 group-hover:text-brand-primary transition-colors leading-tight">
+                        <h2 className={`font-heading font-extrabold text-slate-900 group-hover:text-brand-primary transition-colors leading-tight ${
+                          viewMode === 'list' ? "text-2xl md:text-3xl" : "text-xl md:text-2xl"
+                        }`}>
                           <Link href={`/main/berita/${post.slug}`}>{post.title}</Link>
                         </h2>
 
                         <div
-                          className="text-slate-600 line-clamp-3 leading-relaxed"
+                          className={`text-slate-600 leading-relaxed ${viewMode === 'list' ? "line-clamp-3" : "line-clamp-2 text-sm"}`}
                           dangerouslySetInnerHTML={{ __html: post.content || "" }}
                         />
 
                         <Link 
                           href={`/main/berita/${post.slug}`}
-                          className="inline-flex items-center gap-2 text-brand-primary font-bold hover:translate-x-1 transition-transform pt-2"
+                          className="inline-flex items-center gap-2 text-brand-primary font-bold hover:translate-x-1 transition-transform pt-2 text-sm"
                         >
                           Baca Selengkapnya <ArrowRight size={18} />
                         </Link>

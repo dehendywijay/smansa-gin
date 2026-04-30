@@ -43,26 +43,26 @@ export default function HeroSection() {
             <div key={index} className="relative flex-[0_0_100%] h-full w-full overflow-hidden">
               {/* Image with Ken Burns effect */}
               <div className={`absolute inset-0 w-full h-full transition-transform duration-[10000ms] ease-linear ${index === activeSlideIndex ? "scale-110" : "scale-100"}`}>
-                <Image 
-                  src={slide.imageUrl} 
-                  alt={slide.alt} 
-                  fill 
+                <Image
+                  src={slide.imageUrl}
+                  alt={slide.alt}
+                  fill
                   priority={index === 0}
                   sizes="100vw"
-                  className="object-cover object-center" 
+                  className="object-cover object-center"
                 />
               </div>
-              
+
               {/* Cinematic Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent" />
               <div className="absolute inset-0 bg-slate-950/20" />
-              
+
               {/* Content */}
               <div className="relative h-full w-full max-w-7xl mx-auto px-6 flex items-center">
-                <HeroSlideCaption 
-                  title={slide.title} 
-                  subtitle={slide.subtitle} 
-                  isActive={index === activeSlideIndex} 
+                <HeroSlideCaption
+                  title={slide.title}
+                  subtitle={slide.subtitle}
+                  isActive={index === activeSlideIndex}
                 />
               </div>
             </div>
@@ -76,9 +76,8 @@ export default function HeroSection() {
           <button
             key={index}
             onClick={() => scrollTo(index)}
-            className={`transition-all duration-500 rounded-full ${
-              index === activeSlideIndex ? "w-10 bg-brand-primary" : "w-2.5 bg-white/40 hover:bg-white/60"
-            } h-2.5`}
+            className={`transition-all duration-500 rounded-full ${index === activeSlideIndex ? "w-10 bg-brand-primary" : "w-2.5 bg-white/40 hover:bg-white/60"
+              } h-2.5`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}

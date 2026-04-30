@@ -13,7 +13,9 @@ export const menuData: MenuItem[] = [
       { title: "Profil Sekolah", href: "/main/tentang-kami" },
       { title: "Sambutan Kepala Sekolah", href: "/main/sambutan" },
       { title: "Visi & Misi", href: "/main/visi-misi" },
+      { title: "Guru & Staff", href: "/main/guru-staf"},
       { title: "Berita Terbaru", href: "/main/berita" },
+
     ],
   },
   {
@@ -25,17 +27,6 @@ export const menuData: MenuItem[] = [
     ],
   },
   {
-    title: "Ekskul",
-    href: "/main/ekskul",
-    subItems: [
-     
-      { title: "Badminton", href: "/main/ekskul/badminton" },
-      { title: "Paskibra", href: "/main/ekskul/paskibra" },
-      { title: "Pramuka", href: "/main/ekskul/pramuka" },
-      { title: "Seni & Musik", href: "/main/ekskul/seni-tari" },
-    ],
-  },
-  {
     title: "Galeri",
     href: "/main/galeri",
     subItems: [
@@ -44,15 +35,15 @@ export const menuData: MenuItem[] = [
     ],
   },
   {
+    title: "Ekskul",
+    href: "/main/ekskul",
+  },
+  {
     title: "Hubungi Kami",
     href: "/main/hubungi-kami",
-    subItems: [
-      { title: "Kontak Sekolah", href: "/main/hubungi-kami" },
-      { title: "FAQs", href: "/main/hubungi-kami" },
-    ],
   },
 ];
-    
+
 //data bagian page tentang-kami
 export const facilities = [
   { title: "Laboratorium Modern", description: "Lab Kimia, Fisika, Biologi, dan Komputer dengan peralatan terkini." },
