@@ -48,7 +48,7 @@ export default function Navbar() {
           isVisible ? "translate-y-0" : "-translate-y-full"
         } ${
           isScrolled 
-            ? "bg-white/80 backdrop-blur-md border-b border-slate-200/60 py-3 shadow-sm" 
+            ? "bg-white/80 backdrop-blur-md py-3 shadow-sm" 
             : "bg-transparent py-5"
         }`}
       >

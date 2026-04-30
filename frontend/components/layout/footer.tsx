@@ -131,10 +131,29 @@ export default function Footer() {
           <p className="text-sm text-slate-500">
             © {currentYear} <span className="text-slate-400 font-bold">SMA Negeri 1 Bangunrejo</span>. All Rights Reserved.
           </p>
-          <p className="text-xs text-slate-600 flex items-center gap-1">
-            Build with ❤️ for SMANSA
+          <p className="text-xs text-slate-600 flex items-center flex-wrap justify-center md:justify-end gap-0.5 font-medium">
+            <span>Built by</span>
+            <a 
+              href="https://github.com/DikaRamadhani" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="relative group/name px-1.5 py-0.5"
+            >
+              <span className="relative z-10 text-brand-primary font-bold transition-all duration-300 group-hover/name:text-white inline-block group-hover/name:scale-110">DIKA</span>
+              <span className="absolute inset-0 bg-brand-primary scale-x-0 group-hover/name:scale-x-100 transition-transform duration-300 origin-left rounded-md -z-0" />
+            </a>
+            <span className="text-slate-400 mx-0.5">&</span>
+            <a 
+              href="https://github.com/dehendywijay" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="relative group/name px-1.5 py-0.5"
+            >
+              <span className="relative z-10 text-brand-primary font-bold transition-all duration-300 group-hover/name:text-white inline-block group-hover/name:scale-110">DEHENDY</span>
+              <span className="absolute inset-0 bg-brand-primary scale-x-0 group-hover/name:scale-x-100 transition-transform duration-300 origin-left rounded-md -z-0" />
+            </a>
           </p>
-        </div>
+        </div> 
       </div>
     </footer>
   );

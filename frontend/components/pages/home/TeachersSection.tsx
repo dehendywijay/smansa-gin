@@ -20,7 +20,7 @@ export default function TeachersSection() {
             </p>
           </div>
           <Link 
-            href="/main/tentang-kami" 
+            href="/main/guru-staf" 
             className="group inline-flex items-center gap-2 text-brand-primary font-bold hover:text-brand-primary-dark transition-colors"
           >
             Lihat Semua Staff <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
