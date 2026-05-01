@@ -14,7 +14,7 @@ export default function LoginPage() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // Logic login bisa ditambahkan di sini
-    router.push("/admin/news/add");
+    router.push("/admin");
   };
 
   return (
