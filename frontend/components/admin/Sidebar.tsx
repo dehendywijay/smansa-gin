@@ -2,69 +2,119 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Newspaper, Tags, Users, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { 
+  LayoutDashboard, 
+  Newspaper, 
+  Tags, 
+  Users, 
+  ChevronLeft, 
+  ChevronRight, 
+  UserCheck, 
+  GraduationCap, 
+  Trophy, 
+  BookOpen, 
+  Images,
+  X
+} from "lucide-react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
-// Definisikan item-item navigasi untuk sidebar
 const navItems = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { name: "News", href: "/admin/news", icon: Newspaper },
-  { name: "Category", href: "/admin/categories", icon: Tags },
-  { name: "Users", href: "/admin/users", icon: Users },
+  { name: "Kepala Sekolah", href: "/admin/kepala-sekolah", icon: UserCheck },
+  { name: "Guru & Staf", href: "/admin/guru-staf", icon: GraduationCap },
+  { name: "Ekskul", href: "/admin/ekskul", icon: Trophy },
+  { name: "Alumni", href: "/admin/alumni", icon: BookOpen },
+  { name: "Galeri", href: "/admin/galeri", icon: Images },
 ];
 
-// Komponen utama untuk Sidebar
-export default function Sidebar() {
-  // Dapatkan path URL saat ini untuk menyorot item menu yang aktif
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
-  // State untuk mengelola kondisi sidebar (terlipat atau tidak)
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  // Fungsi untuk mengubah state isCollapsed
+  // Close sidebar on route change (mobile)
+  useEffect(() => {
+    onClose();
+  }, [pathname]);
+
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
 
   return (
-    // Elemen aside sebagai container sidebar
-    // Menggunakan cn untuk menggabungkan kelas-kelas Tailwind CSS secara kondisional
-    <aside className={cn("hidden md:flex flex-col bg-gray-800 text-white transition-all duration-300 ease-in-out", isCollapsed ? "w-20" : "w-64")}>
-      {/* Bagian header dari sidebar */}
-      <div className="flex items-center justify-between p-4 h-16 border-b border-gray-700">
-        {/* Tampilkan judul hanya jika sidebar tidak terlipat */}
-        {!isCollapsed && (
-          <h1 className="text-xl font-bold">
-            <Link href="/admin">Admin Panel</Link>
-          </h1>
-        )}
-        {/* Tombol untuk melipat/membuka sidebar */}
-        <button onClick={toggleSidebar} className="p-2 rounded-md hover:bg-gray-700">
-          {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
-        </button>
-      </div>
-      {/* Navigasi utama */}
-      <nav className="flex-1 p-2 space-y-2">
-        {/* Petakan setiap item navigasi ke komponen Link */}
-        {navItems.map((item) => (
-          <Link
-            key={item.name}
-            href={item.href}
-            className={cn(
-              "flex items-center p-3 rounded-md transition-colors",
-              // Terapkan kelas yang berbeda jika item aktif
-              pathname === item.href ? "bg-blue-600 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white",
-              // Pusatkan konten jika sidebar terlipat
-              isCollapsed ? "justify-center" : "",
-            )}
-          >
-            {/* Ikon untuk item navigasi */}
-            <item.icon className="h-5 w-5" />
-            {/* Tampilkan nama item hanya jika sidebar tidak terlipat */}
-            {!isCollapsed && <span className="ml-4">{item.name}</span>}
-          </Link>
-        ))}
-      </nav>
-    </aside>
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-sm md:hidden"
+          onClick={onClose}
+        />
+      )}
+
+      {/* Sidebar Container */}
+      <aside className={cn(
+        "fixed inset-y-0 left-0 z-50 flex flex-col bg-slate-900 text-white transition-all duration-300 ease-in-out md:relative md:translate-x-0",
+        isCollapsed ? "md:w-20" : "md:w-64",
+        isOpen ? "translate-x-0 w-64" : "-translate-x-full w-64"
+      )}>
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 h-16 border-b border-slate-800">
+          {!isCollapsed && (
+            <h1 className="text-xl font-bold truncate">
+              <Link href="/admin">Admin Panel</Link>
+            </h1>
+          )}
+          
+          {/* Toggle buttons */}
+          <button onClick={toggleSidebar} className="hidden md:flex p-2 rounded-md hover:bg-slate-800 transition-colors">
+            {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+          </button>
+          
+          <button onClick={onClose} className="md:hidden p-2 rounded-md hover:bg-slate-800 transition-colors">
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 p-2 space-y-1 overflow-y-auto custom-scrollbar">
+          {navItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={cn(
+                "flex items-center p-3 rounded-xl transition-all duration-200 group",
+                pathname === item.href 
+                  ? "bg-brand-primary text-white shadow-lg shadow-brand-primary/20" 
+                  : "text-slate-400 hover:bg-slate-800 hover:text-white",
+                isCollapsed && !isOpen ? "justify-center" : "",
+              )}
+            >
+              <item.icon className={cn(
+                "h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-110",
+                pathname === item.href ? "text-white" : "text-slate-400 group-hover:text-white"
+              )} />
+              {(!isCollapsed || isOpen) && (
+                <span className="ml-4 font-medium truncate">{item.name}</span>
+              )}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Footer info (optional) */}
+        <div className="p-4 border-t border-slate-800">
+          {(!isCollapsed || isOpen) && (
+            <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest text-center">
+              Smansa Admin v1.0
+            </div>
+          )}
+        </div>
+      </aside>
+    </>
   );
 }

@@ -79,6 +79,7 @@ export default function Sidebar() {
                     src={post.thumbnail?.startsWith('http') ? post.thumbnail : `${api_images}/${post.thumbnail}`} 
                     alt={post.title} 
                     fill 
+                    sizes="80px"
                     className="object-cover transition-transform duration-500 group-hover:scale-110" 
                   />
                 </div>

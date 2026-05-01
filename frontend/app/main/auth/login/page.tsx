@@ -60,7 +60,7 @@ export default function LoginPage() {
         {/* Right Side: Glassmorphism Login Form */}
         <div className="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-16 relative">
           {/* Glass Panel Background */}
-          <div className="absolute inset-y-0 right-0 w-full bg-white/10 backdrop-blur-6xl border-l border-white/5 shadow-1xl" />
+          <div className="absolute inset-y-0 right-0 w-full bg-white/10 backdrop-blur-5xl border-l border-white/5 shadow-1xl" />
           
           <div className="w-full max-w-md space-y-10 relative z-10">
             <div className="space-y-2">
@@ -76,7 +76,7 @@ export default function LoginPage() {
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-slate-200 ml-1">Username</label>
                   <div className="relative group">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-white transition-colors" size={20} />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-white transition-colors z-10" size={20} />
                     <input
                       type="text"
                       placeholder="Masukkan Username Anda"
@@ -91,7 +91,7 @@ export default function LoginPage() {
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-slate-200 ml-1">Password</label>
                   <div className="relative group">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-white transition-colors" size={20} />
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-white transition-colors z-10" size={20} />
                     <input
                       type="password"
                       placeholder="••••••••"
@@ -114,7 +114,7 @@ export default function LoginPage() {
 
               <button
                 type="submit"
-                className="w-full bg-brand-primary/90 hover:bg-brand-primary text-white py-4 rounded-2xl font-bold transition-all shadow-[0_0_20px_rgba(29,78,216,0.4)] hover:shadow-[0_0_30px_rgba(29,78,216,0.6)] border border-brand-primary-light/30 flex items-center justify-center gap-2 group active:scale-[0.98] backdrop-blur-md"
+                className="w-full bg-brand-primary/90 hover:bg-brand-primary text-white py-4 rounded-2xl font-bold transition-all shadow-[0_0_20px_rgba(29,78,216,0.4)] hover:shadow-[0_0_30px_rgba(29,78,216,0.6)] border border-brand-primary-light/30 flex items-center justify-center gap-2 group active:scale-[0.98] backdrop-blur-md cursor-pointer"
               >
                 Masuk Sekarang
                 <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />

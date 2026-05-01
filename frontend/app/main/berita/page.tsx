@@ -19,7 +19,7 @@ export default function NewsList() {
     <main className="bg-white min-h-screen">
       <PageHero
         title="Berita & Informasi"
-        imageUrl="https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1920&auto=format&fit=crop"
+        imageUrl="https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=75&w=1600&auto=format&fit=crop"
         alt="Hero Background"
         breadcrumbs={[{ label: "Berita" }]}
       />
@@ -38,12 +38,14 @@ export default function NewsList() {
               <div className="flex items-center gap-2">
                 <button 
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded-lg transition-all duration-300 ${viewMode === 'grid' ? "bg-brand-primary text-white shadow-lg shadow-brand-primary/20" : "bg-slate-50 text-slate-400 hover:text-brand-primary"}`}
+                  aria-label="Tampilkan kotak"
+                  className={`hidden md:block p-2 rounded-lg transition-all duration-300 ${viewMode === 'grid' ? "bg-brand-primary text-white shadow-lg shadow-brand-primary/20" : "bg-slate-50 text-slate-400 hover:text-brand-primary"}`}
                 >
                   <Grid size={20} />
                 </button>
                 <button 
                   onClick={() => setViewMode('list')}
+                  aria-label="Tampilkan daftar"
                   className={`p-2 rounded-lg transition-all duration-300 ${viewMode === 'list' ? "bg-brand-primary text-white shadow-lg shadow-brand-primary/20" : "bg-slate-50 text-slate-400 hover:text-brand-primary"}`}
                 >
                   <List size={20} />
@@ -80,6 +82,7 @@ export default function NewsList() {
                           src={post.thumbnail?.startsWith('http') ? post.thumbnail : `${api_images}/${post.thumbnail}`}
                           alt={post.title}
                           fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 30vw"
                           className="object-cover transition-transform duration-700 group-hover:scale-110"
                         />
                         <div className="absolute top-4 left-4">

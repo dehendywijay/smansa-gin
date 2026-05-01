@@ -37,6 +37,7 @@ export default function PageHero({ title, imageUrl, alt, breadcrumbs }: PageHero
           alt={alt} 
           fill 
           priority
+          sizes="100vw"
           className="object-cover" 
         />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-900/40 to-slate-950/90" />
