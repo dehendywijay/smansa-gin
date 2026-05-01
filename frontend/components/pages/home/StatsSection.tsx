@@ -33,11 +33,11 @@ export default function StatsSection() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8">
+        <div className="flex flex-wrap items-center justify-center gap-16 md:gap-24 lg:gap-40">
           {schoolStatsConfig.map((stat, index) => {
             const Icon = iconMap[stat.iconKey as keyof typeof iconMap] || Users;
             return (
-              <div key={index} className="flex flex-col items-center text-center space-y-4">
+              <div key={index} className="flex flex-col items-center text-center space-y-4 min-w-[200px]">
                 {/* Icon Container */}
                 <div className="relative">
                   <div className="absolute -inset-4 bg-white/10 rounded-full animate-pulse" />

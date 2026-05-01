@@ -50,16 +50,17 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-4">
               {[
-                { icon: Facebook, href: "https://www.facebook.com/324948335046042", color: "hover:text-blue-500" },
-                { icon: Instagram, href: "https://www.instagram.com/smansabangunrejo/?hl=en", color: "hover:text-pink-500" },
-                { icon: Twitter, href: "https://www.instagram.com/smansabangunrejo/?hl=en", color: "hover:text-sky-400" },
-                { icon: Youtube, href: "https://www.youtube.com/channel/UCWwq4domYrvlazIWwi9IENQ", color: "hover:text-red-500" },
+                { icon: Facebook, href: "https://www.facebook.com/324948335046042", color: "hover:text-blue-500", label: "Facebook" },
+                { icon: Instagram, href: "https://www.instagram.com/smansabangunrejo/?hl=en", color: "hover:text-pink-500", label: "Instagram" },
+                { icon: Twitter, href: "https://www.instagram.com/smansabangunrejo/?hl=en", color: "hover:text-sky-400", label: "Twitter" },
+                { icon: Youtube, href: "https://www.youtube.com/channel/UCWwq4domYrvlazIWwi9IENQ", color: "hover:text-red-500", label: "Youtube" },
               ].map((social, i) => (
                 <a 
                   key={i} 
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={`Kunjungi ${social.label} kami`}
                   className={`w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] ${social.color}`}
                 >
                   <social.icon size={18} />
@@ -119,6 +120,7 @@ export default function Footer() {
                 style={{ border: 0 }} 
                 allowFullScreen={true} 
                 loading="lazy" 
+                title="Lokasi SMAN 1 Bangunrejo"
               />
               <div className="absolute inset-0 bg-brand-primary/10 pointer-events-none group-hover:opacity-0 transition-opacity" />
             </div>

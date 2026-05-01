@@ -18,6 +18,12 @@ export default function NavItem({ menu, isScrolled }: Props) {
       className="relative group" 
       onMouseEnter={() => setOpen(true)} 
       onMouseLeave={() => setOpen(false)}
+      onFocus={() => setOpen(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+          setOpen(false);
+        }
+      }}
     >
       <Link 
         href={menu.href} 

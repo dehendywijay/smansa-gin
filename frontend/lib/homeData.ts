@@ -26,7 +26,6 @@ export const heroSlides: HeroSlide[] = [
 export const schoolStatsConfig: SchoolStatConfig[] = [
   { label: "Total Siswa", value: 557, iconKey: "students" },
   { label: "Guru & Tendik", value: 49, iconKey: "teachers" },
-  { label: "Program Studi", value: 4, iconKey: "programs" },
   { label: "Total Alumni", value: 642, iconKey: "alumni" },
 ];
 
