@@ -16,7 +16,7 @@ export default function StatsSection() {
   const { ref, isInView } = useInViewOnce({ threshold: 0.2 });
 
   return (
-    <section 
+    <section
       ref={ref}
       className="relative py-24 overflow-hidden bg-brand-primary"
     >
@@ -24,8 +24,18 @@ export default function StatsSection() {
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/>
+            <pattern
+              id="grid"
+              width="40"
+              height="40"
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d="M 40 0 L 0 0 0 40"
+                fill="none"
+                stroke="white"
+                strokeWidth="1"
+              />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
@@ -37,7 +47,10 @@ export default function StatsSection() {
           {schoolStatsConfig.map((stat, index) => {
             const Icon = iconMap[stat.iconKey as keyof typeof iconMap] || Users;
             return (
-              <div key={index} className="flex flex-col items-center text-center space-y-4 min-w-[200px]">
+              <div
+                key={index}
+                className="flex flex-col items-center text-center space-y-4 min-w-[200px]"
+              >
                 {/* Icon Container */}
                 <div className="relative">
                   <div className="absolute -inset-4 bg-white/10 rounded-full animate-pulse" />

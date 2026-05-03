@@ -63,7 +63,7 @@ export default function Navbar() {
             <Link href="/" className="flex items-center gap-3 group shrink-0">
               <div className="relative w-10 h-10 min-[900px]:w-12 min-[900px]:h-12 transition-transform duration-300 group-hover:scale-110">
                 <Image 
-                  src="/img/logo-smansa.png" 
+                  src="/img/Smansa.ico" 
                   alt="Logo SMAN 1 Bangunrejo" 
                   fill 
                   sizes="48px"

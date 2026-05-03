@@ -1,7 +1,15 @@
 // File: frontend/components/ui/ReusablePagination.tsx
 "use client";
 
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/shared/pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/shared/pagination";
 
 interface ReusablePaginationProps {
   totalPages: number;
@@ -19,7 +27,11 @@ interface ReusablePaginationProps {
  * @param {(page: number) => void} props.onPageChange - Fungsi callback yang dipanggil saat halaman berubah.
  * @returns {JSX.Element} Element JSX dari komponen paginasi.
  */
-export default function ReusablePagination({ totalPages, currentPage, onPageChange }: ReusablePaginationProps) {
+export default function ReusablePagination({
+  totalPages,
+  currentPage,
+  onPageChange,
+}: ReusablePaginationProps) {
   const handlePrevious = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);

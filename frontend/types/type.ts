@@ -29,3 +29,13 @@ export type Guru = {
   Nip: string;
   Foto: string;
 };
+
+export type Eskul = {
+  ID: number;
+  Nama: string;
+  Deskripsi: string;
+  Foto: string;
+  Pembina: string;
+  Jadwal: string;
+  Prestasi: string;
+};

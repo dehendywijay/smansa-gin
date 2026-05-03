@@ -2,18 +2,29 @@
 // Ini menggunakan komponen Dialog dari shadcn/ui.
 "use client";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import TextEditor from "@/components/text-editor"; // Komponen editor teks kustom
 import { useState, useEffect } from "react";
 import { News } from "@/types/type"; // Tipe data untuk berita
 import { AlertDialogSure } from "./alert-sure";
-import { useRouter } from "next/navigation"
-
-
+import { useRouter } from "next/navigation";
 
 // Definisikan properti yang diterima oleh komponen NewsForm
 interface NewsFormProps {
@@ -24,7 +35,12 @@ interface NewsFormProps {
 }
 
 // Komponen utama untuk form berita
-export default function NewsForm({ open, onOpenChange, onSave, initialData }: NewsFormProps) {
+export default function NewsForm({
+  open,
+  onOpenChange,
+  onSave,
+  initialData,
+}: NewsFormProps) {
   // State untuk setiap field dalam form
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -34,23 +50,22 @@ export default function NewsForm({ open, onOpenChange, onSave, initialData }: Ne
 
   // useEffect untuk mengisi form dengan data awal saat mode edit
   useEffect(() => {
-      if (initialData) {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setTitle(initialData.title);
-        setContent(initialData.content);
-        setCategory(initialData.category);
-        setStatus(initialData.status);
-      } else {
-        // Reset form jika tidak ada data awal (mode tambah)
-        setTitle("");
-        setContent("");
-        setCategory("");
-        setStatus("draft");
-      }
+    if (initialData) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setTitle(initialData.title);
+      setContent(initialData.content);
+      setCategory(initialData.category);
+      setStatus(initialData.status);
+    } else {
+      // Reset form jika tidak ada data awal (mode tambah)
+      setTitle("");
+      setContent("");
+      setCategory("");
+      setStatus("draft");
+    }
   }, [initialData, open]);
 
-
-  const router = useRouter()
+  const router = useRouter();
   // Fungsi yang dipanggil saat tombol 'Save' diklik
   const handleSubmit = () => {
     // Contoh sederhana, di aplikasi nyata, Anda harus menangani unggahan file dengan benar.
@@ -61,10 +76,9 @@ export default function NewsForm({ open, onOpenChange, onSave, initialData }: Ne
       status,
       thumbnail: thumbnail?.name || initialData?.thumbnail || "",
       imgUrl: thumbnail?.name || initialData?.imgUrl || "",
-    
     };
     onSave(newsData);
-    router.refresh()
+    router.refresh();
   };
 
   return (
@@ -80,7 +94,12 @@ export default function NewsForm({ open, onOpenChange, onSave, initialData }: Ne
             <Label htmlFor="title" className="text-right">
               Judul
             </Label>
-            <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} className="col-span-3" />
+            <Input
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="col-span-3"
+            />
           </div>
           {/* Field untuk Konten (menggunakan TextEditor) */}
           <div className="grid grid-cols-4 items-start gap-4">
@@ -96,7 +115,12 @@ export default function NewsForm({ open, onOpenChange, onSave, initialData }: Ne
             <Label htmlFor="thumbnail" className="text-right">
               Thumbnail
             </Label>
-            <Input id="thumbnail" type="file" onChange={(e) => setThumbnail(e.target.files?.[0] || null)} className="col-span-3" />
+            <Input
+              id="thumbnail"
+              type="file"
+              onChange={(e) => setThumbnail(e.target.files?.[0] || null)}
+              className="col-span-3"
+            />
           </div>
           {/* Field untuk Kategori */}
           <div className="grid grid-cols-4 items-center gap-4">
@@ -120,7 +144,10 @@ export default function NewsForm({ open, onOpenChange, onSave, initialData }: Ne
             <Label htmlFor="status" className="text-right">
               Status
             </Label>
-            <Select value={status} onValueChange={(value: "published" | "draft") => setStatus(value)}>
+            <Select
+              value={status}
+              onValueChange={(value: "published" | "draft") => setStatus(value)}
+            >
               <SelectTrigger className="col-span-3">
                 <SelectValue placeholder="Pilih status" />
               </SelectTrigger>
