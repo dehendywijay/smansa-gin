@@ -10,9 +10,4 @@ type News struct {
 	Slug      string `json:"slug" gorm:"not null"`
 }
 
-type KepalaSekolah struct {
-	gorm.Model
-	Name    string `json:"name" gorm:"not null"`
-	Foto    string `json:"foto" gorm:"not null"`
-	Content string `json:"content" gorm:"not null"`
-}
+

@@ -36,3 +36,13 @@ func AuthRoute(r *gin.Engine) {
 		auth.POST("/refresh", controllers.RefreshToken)
 	}
 }
+
+func GuruRoute(r *gin.Engine) {
+	guru := r.Group("/api/guru")
+	{
+		guru.POST("", controllers.CreateGuru)
+		guru.GET("", controllers.GetGuru)
+		guru.PUT("/:id", controllers.EditGuru)
+		guru.DELETE("/:id", controllers.DeleteGuru)
+	}
+}
