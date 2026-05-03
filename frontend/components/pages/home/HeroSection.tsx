@@ -9,7 +9,9 @@ import { heroSlides } from "@/lib/homeData";
 import { ChevronDown } from "lucide-react";
 
 export default function HeroSection() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 30 }, [Autoplay({ delay: 6000, stopOnInteraction: false })]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 30 }, [
+    Autoplay({ delay: 6000, stopOnInteraction: false }),
+  ]);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   const onSelect = useCallback(() => {
@@ -30,9 +32,12 @@ export default function HeroSection() {
     };
   }, [emblaApi, onSelect]);
 
-  const scrollTo = useCallback((index: number) => {
-    if (emblaApi) emblaApi.scrollTo(index);
-  }, [emblaApi]);
+  const scrollTo = useCallback(
+    (index: number) => {
+      if (emblaApi) emblaApi.scrollTo(index);
+    },
+    [emblaApi],
+  );
 
   return (
     <section className="relative w-full h-screen min-h-screen overflow-hidden bg-slate-950">
@@ -40,9 +45,14 @@ export default function HeroSection() {
       <div className="h-full w-full overflow-hidden" ref={emblaRef}>
         <div className="flex h-full w-full">
           {heroSlides.map((slide, index) => (
-            <div key={index} className="relative flex-[0_0_100%] h-full w-full overflow-hidden">
+            <div
+              key={index}
+              className="relative flex-[0_0_100%] h-full w-full overflow-hidden"
+            >
               {/* Image with Ken Burns effect */}
-              <div className={`absolute inset-0 w-full h-full transition-transform duration-[10000ms] ease-linear ${index === activeSlideIndex ? "scale-110" : "scale-100"}`}>
+              <div
+                className={`absolute inset-0 w-full h-full transition-transform duration-[10000ms] ease-linear ${index === activeSlideIndex ? "scale-110" : "scale-100"}`}
+              >
                 <Image
                   src={slide.imageUrl}
                   alt={slide.alt}
@@ -76,8 +86,11 @@ export default function HeroSection() {
           <button
             key={index}
             onClick={() => scrollTo(index)}
-            className={`transition-all duration-500 rounded-full ${index === activeSlideIndex ? "w-10 bg-brand-primary" : "w-2.5 bg-white/40 hover:bg-white/60"
-              } h-2.5`}
+            className={`transition-all duration-500 rounded-full ${
+              index === activeSlideIndex
+                ? "w-10 bg-brand-primary"
+                : "w-2.5 bg-white/40 hover:bg-white/60"
+            } h-2.5`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}

@@ -30,7 +30,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-3">
               <div className="relative w-12 h-12">
                 <Image 
-                  src="/img/logo-smansa.png" 
+                  src="/img/Smansa.ico" 
                   alt="Logo SMAN 1 Bangunrejo" 
                   fill 
                   className="object-contain brightness-110"

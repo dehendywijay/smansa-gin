@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   title: "SMA Negeri 1 Bangunrejo",
   description:
     "Website resmi SMA Negeri 1 Bangunrejo, menyediakan informasi lengkap tentang sekolah, berita terbaru, dan kegiatan akademik.",
+  icons: {
+    icon: "/img/Smansa.ico",
+  },
 };
 
 export default function RootLayout({
@@ -29,9 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <body
-        className={`${plusJakarta.variable} ${inter.variable} antialiased`}
-      >
+      <body className={`${plusJakarta.variable} ${inter.variable} antialiased`}>
         {children}
         <Toaster position="top-center" />
       </body>
