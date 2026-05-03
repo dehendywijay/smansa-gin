@@ -1,106 +1,227 @@
 "use client";
 
 import { useState } from "react";
-import { GraduationCap, Plus, Search, Pencil, Trash2, User, BookOpen } from "lucide-react";
+import {
+  GraduationCap,
+  Plus,
+  Search,
+  Pencil,
+  Trash2,
+  User,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogFooter 
-} from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { toast } from "sonner";
-
-// Data Dummy Guru
-const dummyStaff = [
-  { id: 1, name: "Drs. Budi Santoso", nip: "197503122005011001", position: "Wakil Kepala Sekolah", subject: "Matematika", image: null },
-  { id: 2, name: "Siti Aminah, S.Pd.", nip: "198205202010012003", position: "Guru Ahli Madya", subject: "Bahasa Indonesia", image: null },
-  { id: 3, name: "Iwan Setiawan, M.Si.", nip: "198001052008011005", position: "Guru Ahli Muda", subject: "Fisika", image: null },
-  { id: 4, name: "Rina Kartika, S.Pd.", nip: "198811302015022001", position: "Guru Pertama", subject: "Bahasa Inggris", image: null },
-  { id: 5, name: "Hendy Wijaya, S.Kom.", nip: "199204152019031002", position: "Staf IT", subject: "TIK", image: null },
-];
-
+import axios from "axios";
+import { api_guru } from "@/constans/strings";
+import { useRouter } from "next/navigation";
+import { useGuru } from "@/hook/useGuru";
+import GuruFormDialog from "@/components/admin/GuruFormDialog";
+import { AlertDialogDestructive } from "@/components/admin/alert-delete";
 export default function AdminGuruStafPage() {
-  const [staff, setStaff] = useState(dummyStaff);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+  const { guru, loading, error } = useGuru();
 
-  const handleDelete = (id: number) => {
-    setStaff(staff.filter(s => s.id !== id));
-    toast.success("Data berhasil dihapus (Dummy)");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [nama, setNama] = useState("");
+  const [nip, setNip] = useState("");
+  const [jabatan, setJabatan] = useState("");
+  const [foto, setFoto] = useState<File | null>(null);
+
+  const resetForm = () => {
+    setNama("");
+    setNip("");
+    setJabatan("");
+    setFoto(null);
+    setSelectedId(null);
+    setIsEdit(false);
   };
 
-  const filteredStaff = staff.filter(s => 
-    s.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    s.nip.includes(searchQuery)
+  const openAddDialog = () => {
+    resetForm();
+    setIsDialogOpen(true);
+  };
+
+  const handleDialogChange = (open: boolean) => {
+    setIsDialogOpen(open);
+
+    if (!open) {
+      resetForm();
+    }
+  };
+
+  const handleEdit = (id: number) => {
+    const selectedGuru = guru.find((item) => item.ID === id);
+
+    if (!selectedGuru) {
+      toast.error("Data guru tidak ditemukan");
+      return;
+    }
+
+    setNama(selectedGuru.nama);
+    setNip(selectedGuru.nip);
+    setJabatan(selectedGuru.jabatan);
+    setFoto(null);
+    setSelectedId(id);
+    setIsEdit(true);
+    setIsDialogOpen(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const formData = new FormData();
+      formData.append("nama", nama);
+      formData.append("nip", nip);
+      formData.append("jabatan", jabatan);
+
+      if (foto) {
+        formData.append("foto", foto);
+      }
+
+      const res =
+        isEdit && selectedId
+          ? await axios.put(`${api_guru}/${selectedId}`, formData)
+          : await axios.post(api_guru, formData);
+
+      toast.success(res.data.message);
+
+      resetForm();
+      setIsDialogOpen(false);
+      router.refresh();
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error?.response?.data?.error || "Terjadi kesalahan");
+    }
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+
+  const filteredStaff = guru.filter(
+    (s) =>
+      s.nama.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      s.nip.includes(searchQuery),
   );
 
+  const handleDelete = async (id: number) => {
+  try {
+    const res = await axios.delete(`${api_guru}/${id}`);
+
+    toast.success(res.data.message);
+    router.refresh();
+  } catch (error: any) {
+    toast.error(error?.response?.data?.error || "Gagal menghapus data");
+  }
+};
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold flex items-center gap-2 text-slate-800">
-          <GraduationCap className="text-brand-primary" /> Manajemen Guru & Staf
+          <GraduationCap className="text-brand-primary" />
+          Manajemen Guru & Staf
         </h1>
-        <Button onClick={() => setIsDialogOpen(true)} className="rounded-xl bg-brand-primary hover:bg-brand-primary/90 flex items-center gap-2">
-          <Plus size={18} /> Tambah Guru/Staf
+
+        <Button
+          onClick={openAddDialog}
+          className="rounded-xl bg-brand-primary hover:bg-brand-primary/90 flex items-center gap-2"
+        >
+          <Plus size={18} />
+          Tambah Guru/Staf
         </Button>
       </div>
 
       <div className="bg-white p-4 md:p-6 rounded-[32px] border border-slate-100 shadow-sm space-y-4">
-        {/* Filter Area */}
         <div className="relative max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-          <Input 
-            placeholder="Cari nama atau NIP..." 
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+            size={18}
+          />
+          <Input
+            placeholder="Cari nama atau NIP..."
             className="pl-10 rounded-xl border-slate-200"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
-        {/* Table Area */}
         <div className="rounded-2xl border border-slate-100 overflow-x-auto">
           <Table className="min-w-[800px]">
             <TableHeader className="bg-slate-50">
               <TableRow>
                 <TableHead className="w-16">No</TableHead>
-                <TableHead>Nama & NIP</TableHead>
+                <TableHead>Nama</TableHead>
+                <TableHead>NIP</TableHead>
                 <TableHead>Jabatan</TableHead>
-                <TableHead>Mata Pelajaran</TableHead>
                 <TableHead className="text-right">Aksi</TableHead>
               </TableRow>
             </TableHeader>
+
             <TableBody>
               {filteredStaff.map((person, index) => (
-                <TableRow key={person.id} className="hover:bg-slate-50/50 transition-colors">
-                  <TableCell className="font-bold text-slate-400">{index + 1}</TableCell>
+                <TableRow key={person.ID}>
+                  <TableCell className="font-bold text-slate-400">
+                    {index + 1}
+                  </TableCell>
+
                   <TableCell>
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-brand-primary">
-                        <User size={20} />
+                      <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-brand-primary overflow-hidden">
+                        {person.foto ? (
+                          <img
+                            src={person.foto}
+                            alt={person.nama}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <User size={20} />
+                        )}
                       </div>
-                      <div>
-                        <div className="font-bold text-slate-800">{person.name}</div>
-                        <div className="text-xs text-slate-400">{person.nip}</div>
+
+                      <div className="font-bold text-slate-800">
+                        {person.nama}
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="font-medium text-slate-600">{person.position}</TableCell>
+
+                  <TableCell className="font-medium text-slate-600">
+                    {person.nip}
+                  </TableCell>
+
                   <TableCell>
-                    <span className="px-3 py-1 rounded-full bg-brand-surface-alt text-brand-primary text-xs font-bold flex items-center w-fit gap-1.5">
-                      <BookOpen size={12} /> {person.subject}
+                    <span className="px-3 py-1 rounded-full bg-brand-surface-alt text-brand-primary text-xs font-bold">
+                      {person.jabatan}
                     </span>
                   </TableCell>
+
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
-                      <Button variant="ghost" size="icon" className="text-slate-400 hover:text-brand-primary hover:bg-brand-surface-alt rounded-lg">
+                      <Button
+                        onClick={() => handleEdit(person.ID)}
+                        variant="ghost"
+                        size="icon"
+                        className="text-slate-400 hover:text-brand-primary hover:bg-brand-surface-alt rounded-lg"
+                      >
                         <Pencil size={16} />
                       </Button>
-                      <Button onClick={() => handleDelete(person.id)} variant="ghost" size="icon" className="text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg">
-                        <Trash2 size={16} />
+
+                      <Button>
+                        <AlertDialogDestructive
+                          onDelete={() => handleDelete(person.ID)}
+                        />
                       </Button>
                     </div>
                   </TableCell>
@@ -111,42 +232,19 @@ export default function AdminGuruStafPage() {
         </div>
       </div>
 
-      {/* Add/Edit Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-md rounded-[32px]">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold">Tambah Guru & Staf</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase">Nama Lengkap</label>
-              <Input placeholder="Contoh: Nama, Gelar" className="rounded-xl" />
-            </div>
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase">NIP</label>
-              <Input placeholder="Masukkan 18 digit NIP" className="rounded-xl" />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-500 uppercase">Jabatan</label>
-                <Input placeholder="Contoh: Guru Ahli" className="rounded-xl" />
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-500 uppercase">Mata Pelajaran</label>
-                <Input placeholder="Contoh: Biologi" className="rounded-xl" />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase">Upload Foto</label>
-              <Input type="file" className="rounded-xl cursor-pointer" />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button onClick={() => setIsDialogOpen(false)} variant="outline" className="rounded-xl">Batal</Button>
-            <Button onClick={() => { setIsDialogOpen(false); toast.success("Data berhasil ditambah (Dummy)"); }} className="rounded-xl bg-brand-primary">Simpan</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <GuruFormDialog
+        open={isDialogOpen}
+        isEdit={isEdit}
+        nama={nama}
+        nip={nip}
+        jabatan={jabatan}
+        onOpenChange={handleDialogChange}
+        onSubmit={handleSubmit}
+        onNamaChange={setNama}
+        onNipChange={setNip}
+        onJabatanChange={setJabatan}
+        onFotoChange={setFoto}
+      />
     </div>
   );
 }

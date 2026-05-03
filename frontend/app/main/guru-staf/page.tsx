@@ -7,13 +7,18 @@ import PageHero from "@/components/shared/PageHero";
 import { teachersData } from "@/lib/homeData";
 import Image from "next/image";
 import { Search, UserX } from "lucide-react";
+import { useGuru } from "@/hook/useGuru";
 
 export default function GuruStafPage() {
+  const { guru, loading, error } = useGuru();
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredStaff = teachersData.filter((staff) =>
-    staff.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredStaff = guru.filter((staff) =>
+    staff.nama.toLowerCase().includes(searchQuery.toLowerCase()),
   );
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <main className="bg-white min-h-screen">
@@ -31,17 +36,23 @@ export default function GuruStafPage() {
             <div className="space-y-8">
               <div className="space-y-4">
                 <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-slate-900">
-                  Keluarga Besar <span className="text-brand-primary">SMAN 1 Bangunrejo</span>
+                  Keluarga Besar{" "}
+                  <span className="text-brand-primary">SMAN 1 Bangunrejo</span>
                 </h2>
                 <p className="text-slate-600 text-lg max-w-3xl">
-                  Kami bangga memiliki jajaran tenaga pendidik yang berdedikasi tinggi, kompeten, dan memiliki semangat untuk mencerdaskan kehidupan bangsa melalui pendidikan yang berkualitas.
+                  Kami bangga memiliki jajaran tenaga pendidik yang berdedikasi
+                  tinggi, kompeten, dan memiliki semangat untuk mencerdaskan
+                  kehidupan bangsa melalui pendidikan yang berkualitas.
                 </p>
               </div>
 
               {/* Search Bar */}
               <RevealOnScroll direction="up" delayClassName="delay-100">
                 <div className="relative max-w-md group">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors" size={20} />
+                  <Search
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors"
+                    size={20}
+                  />
                   <input
                     type="text"
                     placeholder="Cari nama guru atau staf..."
@@ -66,8 +77,8 @@ export default function GuruStafPage() {
                       {/* Photo container with zoom effect */}
                       <div className="relative aspect-[4/5] overflow-hidden">
                         <Image
-                          src={staff.image}
-                          alt={staff.name}
+                          src={staff.foto}
+                          alt={staff.nama}
                           fill
                           className="object-cover transition-transform duration-700 group-hover:scale-110"
                         />
@@ -77,10 +88,10 @@ export default function GuruStafPage() {
                       {/* Content */}
                       <div className="p-6 text-center">
                         <h3 className="font-heading font-bold text-slate-900 group-hover:text-brand-primary transition-colors duration-300">
-                          {staff.name}
+                          {staff.nama}
                         </h3>
                         <p className="text-sm text-slate-500 font-medium mt-1">
-                          {staff.role}
+                          {staff.jabatan}
                         </p>
                       </div>
 
@@ -91,22 +102,33 @@ export default function GuruStafPage() {
                 ))}
               </div>
             ) : (
-              <RevealOnScroll direction="up" className="py-20 text-center space-y-4 bg-slate-50 rounded-[3rem] border border-dashed border-slate-200">
+              <RevealOnScroll
+                direction="up"
+                className="py-20 text-center space-y-4 bg-slate-50 rounded-[3rem] border border-dashed border-slate-200"
+              >
                 <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto text-slate-300">
                   <UserX size={32} />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-xl font-heading font-bold text-slate-900">Guru tidak ditemukan</h3>
-                  <p className="text-slate-500">Maaf, kami tidak menemukan nama guru yang Anda cari.</p>
+                  <h3 className="text-xl font-heading font-bold text-slate-900">
+                    Guru tidak ditemukan
+                  </h3>
+                  <p className="text-slate-500">
+                    Maaf, kami tidak menemukan nama guru yang Anda cari.
+                  </p>
                 </div>
               </RevealOnScroll>
             )}
 
             {/* Quote or Call to Action */}
-            <RevealOnScroll direction="up" className="bg-brand-primary rounded-[3rem] p-12 text-center text-white relative overflow-hidden">
+            <RevealOnScroll
+              direction="up"
+              className="bg-brand-primary rounded-[3rem] p-12 text-center text-white relative overflow-hidden"
+            >
               <div className="relative z-10 space-y-4">
                 <h3 className="text-2xl md:text-3xl font-heading font-bold italic">
-                  "Pendidikan adalah senjata paling mematikan di dunia, karena dengan pendidikan, Anda dapat mengubah dunia."
+                  "Pendidikan adalah senjata paling mematikan di dunia, karena
+                  dengan pendidikan, Anda dapat mengubah dunia."
                 </h3>
                 <p className="text-blue-100 font-medium">— Nelson Mandela</p>
               </div>

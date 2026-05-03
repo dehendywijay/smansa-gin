@@ -16,7 +16,7 @@ export const useNews = () => {
         setNews(data);
       } catch (error) {
         console.error(error);
-        setError("Failed to fetch latest news.");
+        setError("Gagal Mengambil Berita.");
       } finally {
         setLoading(false);
       }

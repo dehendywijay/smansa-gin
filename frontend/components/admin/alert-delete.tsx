@@ -32,7 +32,7 @@ export function AlertDialogDestructive({ onDelete }: Props) {
             <Trash2Icon />
           </AlertDialogMedia>
 
-          <AlertDialogTitle>Delete Berita?</AlertDialogTitle>
+          <AlertDialogTitle>Delete?</AlertDialogTitle>
 
           <AlertDialogDescription>
             Data yang dihapus tidak bisa dikembalikan.

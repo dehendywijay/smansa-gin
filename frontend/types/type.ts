@@ -21,3 +21,11 @@ export type News = {
   UpdatedAt: string | Date;
   slug : string;
 };
+
+export type Guru = {
+  ID: number;
+  Nama: string;
+  Jabatan: string;
+  Nip: string;
+  Foto: string;
+};
