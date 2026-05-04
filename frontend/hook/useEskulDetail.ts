@@ -5,14 +5,21 @@ import { Eskul } from "@/types/type";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export const useEskul = () => {
-  const [eskul, setEskul] = useState<Eskul[]>([]);
+export const useEskulDetail = (slug: string) => {
+  const [eskul, setEskul] = useState<Eskul>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchEskul = async () => {
+   useEffect(() => {
+    if (!slug) {
+      setLoading(false);
+      setError("News slug is missing.");
+      return;
+    }
+
+  const fetchEskulbySlug = async () => {
     try {
-      const data = await axios.get<Eskul[]>(`${api_eskul}`).then((res) => res.data);
+      const data = await axios.get<Eskul>(`${api_eskul}/${slug}`).then((res) => res.data);
       setEskul(data);
     } catch (error) {
       console.error(error);
@@ -21,10 +28,9 @@ export const useEskul = () => {
       setLoading(false);
     }
   };
+  void fetchEskulbySlug();
+  }, [slug]);
+  
 
-  useEffect(() => {
-    fetchEskul();
-  }, []);
-
-  return { eskul, loading, error, refetch: fetchEskul };
+  return { eskul, loading, error};
 };

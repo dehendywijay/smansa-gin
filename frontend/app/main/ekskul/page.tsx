@@ -1,11 +1,16 @@
+"use client";
+
 import PageHero from "@/components/shared/PageHero";
 import RevealOnScroll from "@/components/animations/RevealOnScroll";
 import Link from "next/link";
 import Image from "next/image";
 import { ekskulList } from "@/lib/data";
 import { Compass, ArrowRight } from "lucide-react";
+import { useEskul } from "@/hook/UseEskul";
 
 export default function EkskulPage() {
+  const { eskul, loading, error } = useEskul();
+
   return (
     <main className="bg-white min-h-screen">
       <PageHero
@@ -18,34 +23,45 @@ export default function EkskulPage() {
       <div className="max-w-7xl mx-auto px-6 py-20">
         <section className="space-y-16">
           {/* Header Section */}
-          <RevealOnScroll direction="up" className="text-center max-w-3xl mx-auto space-y-4">
+          <RevealOnScroll
+            direction="up"
+            className="text-center max-w-3xl mx-auto space-y-4"
+          >
             <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-brand-surface-alt border border-brand-primary/10">
               <Compass size={16} className="text-brand-primary" />
-              <span className="text-xs font-bold uppercase tracking-wider text-brand-primary">Minat & Bakat</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-brand-primary">
+                Minat & Bakat
+              </span>
             </div>
             <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-slate-900 leading-tight">
-              Wadah Kreativitas <span className="text-brand-primary">Siswa</span>
+              Wadah Kreativitas{" "}
+              <span className="text-brand-primary">Siswa</span>
             </h2>
             <p className="text-slate-600 text-lg">
-              Kami percaya bahwa pendidikan tidak hanya terjadi di dalam kelas. SMANSA menyediakan beragam kegiatan untuk membantu siswa mengembangkan potensi diri.
+              Kami percaya bahwa pendidikan tidak hanya terjadi di dalam kelas.
+              SMANSA menyediakan beragam kegiatan untuk membantu siswa
+              mengembangkan potensi diri.
             </p>
           </RevealOnScroll>
 
           {/* Grid Section */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            {ekskulList.map((ekskul, index) => (
+            {eskul.map((ekskul, index) => (
               <RevealOnScroll
-                key={ekskul.title}
+                key={ekskul.nama}
                 direction="up"
                 delayClassName={`delay-${index * 100}`}
                 className="group"
               >
-                <Link href={ekskul.href} className="block relative bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-slate-100">
+                <Link
+                  href={`/main/ekskul/${ekskul.slug}`}
+                  className="block relative bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-slate-100"
+                >
                   {/* Image Container */}
                   <div className="relative h-64 overflow-hidden">
                     <Image
-                      src={ekskul.image}
-                      alt={ekskul.title}
+                      src={ekskul.foto}
+                      alt={ekskul.nama}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
@@ -62,14 +78,18 @@ export default function EkskulPage() {
                   {/* Content */}
                   <div className="p-8 space-y-4">
                     <h3 className="font-heading font-bold text-2xl text-slate-900 group-hover:text-brand-primary transition-colors">
-                      {ekskul.title}
+                      {ekskul.nama}
                     </h3>
-                    <p className="text-slate-600 text-sm leading-relaxed line-clamp-3">
-                      {ekskul.description}
-                    </p>
+                    <p
+                      className="text-slate-600 text-sm leading-relaxed line-clamp-3"
+                      dangerouslySetInnerHTML={{ __html: ekskul.tujuan || "" }}
+                    />
                     <div className="pt-2 flex items-center gap-2 text-brand-primary font-bold text-sm">
                       Selengkapnya
-                      <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                      <ArrowRight
+                        size={16}
+                        className="transition-transform group-hover:translate-x-1"
+                      />
                     </div>
                   </div>
 
