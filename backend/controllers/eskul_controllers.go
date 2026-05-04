@@ -14,6 +14,7 @@ func CreateEskul(c *gin.Context) {
 	pembina := c.PostForm("pembina")
 	jadwal := c.PostForm("jadwal")
 	prestasi := c.PostForm("prestasi")
+	tujuan := c.PostForm("tujuan")
 
 	fileBytes, objectPath, contentType, err := utility.ProcessImageUpload(c, "foto")
 	if err != nil {
@@ -33,6 +34,7 @@ func CreateEskul(c *gin.Context) {
 		Jadwal:  jadwal,
 		Prestasi: prestasi,
 		Foto:    publicURL,
+		Tujuan: tujuan,
 		Slug:    utility.MakeSlug(nama),
 	}
 
@@ -73,12 +75,14 @@ func EditEskul(c *gin.Context) {
 	pembina := c.PostForm("pembina")
 	jadwal := c.PostForm("jadwal")
 	prestasi := c.PostForm("prestasi")
+	tujuan := c.PostForm("tujuan")
 
 	eskul := models.Eskul{
 		Nama:    nama,
 		Pembina: pembina,
 		Jadwal:  jadwal,
 		Prestasi: prestasi,
+		Tujuan: tujuan,
 		Slug: utility.MakeSlug(nama),
 	}
 

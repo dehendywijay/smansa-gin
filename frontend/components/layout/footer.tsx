@@ -27,7 +27,7 @@ export default function Footer() {
           
           {/* Column 1: Branding & Info */}
           <div className="space-y-6">
-            <Link href="/" className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-3" prefetch={false}>
               <div className="relative w-12 h-12">
                 <Image 
                   src="/img/Smansa.ico" 
