@@ -57,3 +57,13 @@ func EskulRoute(r *gin.Engine) {
 		eskul.DELETE("/:slug", controllers.DeleteEskul)
 	}
 }
+
+func AlumniRoute(r *gin.Engine) {
+	alumni := r.Group("/api/alumni")
+	{
+		alumni.POST("", controllers.CreateAlumni)
+		alumni.GET("", controllers.GetAllAlumni)
+		alumni.PUT("/:id", controllers.UpdateAlumni)
+		alumni.DELETE("/:id", controllers.DeleteAlumni)
+	}
+}

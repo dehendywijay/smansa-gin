@@ -40,3 +40,11 @@ export type Eskul = {
   prestasi: string;
   slug: string;
 };
+
+export type Alumni = {
+  ID: number;
+  nama: string;
+  universitas: string;
+  tahun: string;
+  foto: string;
+};
