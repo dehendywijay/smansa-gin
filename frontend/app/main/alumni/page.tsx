@@ -1,44 +1,37 @@
+"use client";
+
+import { useState } from "react";
 import Sidebar from "@/components/news/SideNews";
 import RevealOnScroll from "@/components/animations/RevealOnScroll";
 import PageHero from "@/components/shared/PageHero";
-import { 
-  Users2, 
-  GraduationCap, 
-  Briefcase, 
-  Handshake, 
+import Image from "next/image";
+import {
+  Users2,
+  GraduationCap,
+  Briefcase,
+  Handshake,
   Award,
-  BookOpenCheck
+  BookOpenCheck,
+  School,
+  Search,
+  UserX
 } from "lucide-react";
+import { alumniData } from "@/lib/data";
 
 export default function AlumniPage() {
-  const alumniPrograms = [
-    {
-      title: "Program Mentoring",
-      description: "Alumni mendampingi siswa kelas akhir dalam persiapan kuliah dan dunia kerja.",
-      icon: Users2,
-    },
-    {
-      title: "Tracer Study",
-      description: "Pendataan lulusan untuk evaluasi kurikulum dan peningkatan kualitas pembelajaran.",
-      icon: BookOpenCheck,
-    },
-    {
-      title: "Career Talk",
-      description: "Sesi berbagi pengalaman karier dari alumni di berbagai bidang profesi.",
-      icon: Briefcase,
-    },
-    {
-      title: "Dukungan Beasiswa",
-      description: "Program kolaboratif alumni untuk mendukung siswa berprestasi.",
-      icon: Award,
-    },
-  ];
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredAlumni = alumniData.filter((alumni) =>
+    alumni.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    alumni.university.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
 
   return (
     <main className="bg-white min-h-screen">
-      <PageHero 
-        title="Alumni" 
-        imageUrl="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1920&auto=format&fit=crop" 
+      <PageHero
+        title="Alumni"
+        imageUrl="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1920&auto=format&fit=crop"
         alt="Alumni"
         breadcrumbs={[{ label: "Alumni" }]}
       />
@@ -46,7 +39,7 @@ export default function AlumniPage() {
       <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-16">
           {/* Main Content */}
-          <section className="lg:col-span-3 space-y-12">
+          <section className="lg:col-span-3 space-y-16">
             <RevealOnScroll direction="up" className="space-y-6">
               <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-brand-surface-alt border border-brand-primary/10">
                 <Handshake size={16} className="text-brand-primary" />
@@ -66,26 +59,84 @@ export default function AlumniPage() {
               </div>
             </RevealOnScroll>
 
-            {/* Programs Grid */}
-            <div className="grid sm:grid-cols-2 gap-8 pt-8">
-              {alumniPrograms.map((program, index) => (
-                <RevealOnScroll 
-                  key={index} 
-                  direction="up" 
-                  delayClassName={`delay-${index * 100}`}
-                  className="group p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-xl transition-all duration-500"
-                >
-                  <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center text-brand-primary mb-6 group-hover:bg-brand-primary group-hover:text-white transition-all duration-500">
-                    <program.icon size={28} />
-                  </div>
-                  <h3 className="font-heading font-bold text-xl text-slate-900 mb-3">
-                    {program.title}
-                  </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    {program.description}
+            {/* Alumni Cards Section */}
+            <div className="space-y-12 pt-8 border-t border-slate-100">
+              <div className="space-y-8">
+                <div className="space-y-4">
+                  <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-slate-900">
+                    Profil <span className="text-brand-primary">Alumni SMANSA</span>
+                  </h2>
+                  <p className="text-slate-600 text-lg max-w-3xl">
+                    Mengenal lebih dekat para alumni yang telah melanjutkan pendidikan ke perguruan tinggi.
                   </p>
+                </div>
+
+                {/* Search Bar */}
+                <RevealOnScroll direction="up" delayClassName="delay-100">
+                  <div className="relative max-w-md group">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-primary transition-colors" size={20} />
+                    <input
+                      type="text"
+                      placeholder="Cari nama alumni atau universitas..."
+                      className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-brand-primary/10 focus:border-brand-primary transition-all duration-300 text-slate-900"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
                 </RevealOnScroll>
-              ))}
+              </div>
+
+              {filteredAlumni.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+                  {filteredAlumni.map((alumni, index) => (
+                    <RevealOnScroll
+                      key={alumni.id}
+                      direction="up"
+                      delayClassName={`delay-${(index % 3) * 100}`}
+                      className="group"
+                    >
+                      <div className="relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
+                        {/* Photo container */}
+                        <div className="relative aspect-[4/5] overflow-hidden">
+                          <Image
+                            src={alumni.image}
+                            alt={alumni.name}
+                            fill
+                            className="object-cover transition-transform duration-700 group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-6 text-center">
+                          <h3 className="font-heading font-bold text-slate-900 group-hover:text-brand-primary transition-colors duration-300">
+                            {alumni.name}
+                          </h3>
+                          <div className="flex items-center justify-center gap-1.5 mt-2 text-slate-600">
+                            <School size={16} className="text-brand-primary/80" />
+                            <p className="text-sm font-medium italic">
+                              {alumni.university}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Decorative bottom bar */}
+                        <div className="absolute bottom-0 left-0 h-1 bg-brand-primary w-0 group-hover:w-full transition-all duration-500" />
+                      </div>
+                    </RevealOnScroll>
+                  ))}
+                </div>
+              ) : (
+                <RevealOnScroll direction="up" className="py-20 text-center space-y-4 bg-slate-50 rounded-[3rem] border border-dashed border-slate-200">
+                  <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto text-slate-300">
+                    <UserX size={32} />
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="text-xl font-heading font-bold text-slate-900">Alumni tidak ditemukan</h3>
+                    <p className="text-slate-500">Maaf, kami tidak menemukan alumni dengan kriteria tersebut.</p>
+                  </div>
+                </RevealOnScroll>
+              )}
             </div>
           </section>
 
@@ -100,3 +151,4 @@ export default function AlumniPage() {
     </main>
   );
 }
+

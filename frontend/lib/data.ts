@@ -1,5 +1,6 @@
 import { MenuItem } from "@/types/type";
 
+
 //data untuk menu navigasi
 export const menuData: MenuItem[] = [
   {
@@ -13,17 +14,9 @@ export const menuData: MenuItem[] = [
       { title: "Profil Sekolah", href: "/main/tentang-kami" },
       { title: "Sambutan Kepala Sekolah", href: "/main/sambutan" },
       { title: "Visi & Misi", href: "/main/visi-misi" },
-      { title: "Guru & Staff", href: "/main/guru-staf"},
+      { title: "Guru & Staff", href: "/main/guru-staf" },
       { title: "Berita Terbaru", href: "/main/berita" },
 
-    ],
-  },
-  {
-    title: "Alumni",
-    href: "/main/alumni",
-    subItems: [
-      { title: "Jejaring Alumni", href: "/main/alumni" },
-      { title: "Program Karier", href: "/main/alumni" },
     ],
   },
   {
@@ -33,6 +26,10 @@ export const menuData: MenuItem[] = [
       { title: "Dokumentasi Kegiatan", href: "/main/galeri/dokumentasi" },
       { title: "Video Kegiatan", href: "/main/galeri/video" },
     ],
+  },
+  {
+    title: "Alumni",
+    href: "/main/alumni",
   },
   {
     title: "Ekskul",
@@ -112,3 +109,12 @@ export const galleryData = {
     { title: "Highlight HUT Ke-30", date: "2023", youtubeId: "dQw4w9WgXcQ" },
   ]
 };
+
+// Data Alumni Dummy
+export const alumniData = [
+  { id: 1, name: "Budi Santoso", university: "Universitas Indonesia", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop" },
+  { id: 2, name: "Siti Aminah", university: "Institut Teknologi Bandung", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400&auto=format&fit=crop" },
+  { id: 3, name: "Iwan Setiawan", university: "Universitas Gadjah Mada", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop" },
+  { id: 4, name: "Rina Kartika", university: "Universitas Lampung", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop" },
+  { id: 5, name: "Hendy Wijaya", university: "IPB University", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop" },
+];
