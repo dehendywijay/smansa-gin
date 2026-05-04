@@ -7,13 +7,13 @@ import { useRouter } from "next/navigation";
 import { Mail, Lock, ArrowRight, Home } from "lucide-react";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Logic login bisa ditambahkan di sini
+    // Logic login ditunda sesuai permintaan
     router.push("/admin");
   };
 
@@ -34,8 +34,8 @@ export default function LoginPage() {
       <div className="relative z-10 flex w-full">
         {/* Left Side: Visual Branding (Hidden on Mobile) */}
         <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-16 text-white">
-          <Link href="/" className="flex items-center gap-3 w-max">
-            <Image src="/img/logo-smansa.png" alt="Logo" width={50} height={50} className="brightness-200 drop-shadow-md" />
+          <Link href="/" className="flex items-center gap-3 w-max hover:scale-110 transition-all duration-200">
+            <Image src="/img/Smansa.ico" alt="Logo" width={50} height={50} className="drop-shadow-md hover:scale-110 transition-all duration-500" />
             <div className="font-heading font-bold text-xl tracking-tight drop-shadow-md">
               SMA NEGERI 1 <br /> <span className="text-brand-secondary">BANGUNREJO</span>
             </div>
@@ -81,8 +81,8 @@ export default function LoginPage() {
                       type="text"
                       placeholder="Masukkan Username Anda"
                       className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/20 transition-all text-white placeholder:text-slate-400 backdrop-blur-md"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
                       required
                     />
                   </div>
