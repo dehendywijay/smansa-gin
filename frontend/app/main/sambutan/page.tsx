@@ -7,9 +7,9 @@ import { Quote } from "lucide-react";
 export default function Home() {
   return (
     <main className="bg-white min-h-screen">
-      <PageHero 
-        title="Sambutan Kepala Sekolah" 
-        imageUrl="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1920&auto=format&fit=crop" 
+      <PageHero
+        title="Sambutan Kepala Sekolah"
+        imageUrl="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1920&auto=format&fit=crop"
         alt="Sambutan"
         breadcrumbs={[{ label: "Sambutan" }]}
       />
@@ -22,11 +22,11 @@ export default function Home() {
               <RevealOnScroll direction="left" className="relative w-full max-w-[300px] aspect-[3/4] shrink-0">
                 <div className="absolute -inset-4 border-2 border-brand-primary/20 rounded-3xl translate-x-4 translate-y-4 -z-10" />
                 <div className="relative h-full w-full rounded-3xl overflow-hidden shadow-2xl">
-                  <Image 
-                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop" 
-                    alt="Kepala Sekolah" 
-                    fill 
-                    className="object-cover" 
+                  <Image
+                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop"
+                    alt="Kepala Sekolah"
+                    fill
+                    className="object-cover"
                   />
                   <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-brand-primary to-transparent text-white">
                     <p className="font-heading font-bold text-lg">Muhammad Zaenudin S.Pd</p>
@@ -57,7 +57,7 @@ export default function Home() {
                 </div>
 
                 <div className="pt-8">
-                  <p className="font-heading font-bold text-slate-900 text-lg uppercase tracking-wider">Henrican Purba, M.Pd.</p>
+                  <p className="font-heading font-bold text-slate-900 text-lg uppercase tracking-wider">Muhammad Zaenudin S.Pd</p>
                   <p className="text-brand-primary font-bold text-sm">Kepala Sekolah SMA N 1 Bangunrejo</p>
                 </div>
               </RevealOnScroll>

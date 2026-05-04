@@ -51,7 +51,7 @@ export const facilities = [
   { title: "Wi-Fi Area", description: "Akses internet kecepatan tinggi di seluruh area sekolah." },
 ];
 
-//data bagian page ekskul
+
 //data bagian page ekskul
 export const ekskulList = [
   {
