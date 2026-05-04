@@ -29,7 +29,7 @@ export default function Home() {
                     className="object-cover" 
                   />
                   <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-brand-primary to-transparent text-white">
-                    <p className="font-heading font-bold text-lg">Henrican Purba, M.Pd.</p>
+                    <p className="font-heading font-bold text-lg">Muhammad Zaenudin S.Pd</p>
                     <p className="text-xs uppercase tracking-widest text-white/80">Kepala Sekolah</p>
                   </div>
                 </div>
