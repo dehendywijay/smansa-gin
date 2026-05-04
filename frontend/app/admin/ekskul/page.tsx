@@ -22,7 +22,7 @@ import { AlertDialogDestructive } from "@/components/admin/alert-delete";
 
 export default function AdminEskulPage() {
   const router = useRouter();
-  const { eskul, loading, error } = useEskul();
+  const { eskul, loading, error, refetch } = useEskul();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -106,7 +106,7 @@ export default function AdminEskulPage() {
 
       resetForm();
       setIsDialogOpen(false);
-      router.refresh();
+      await refetch();
     } catch (error: any) {
       console.error(error);
       toast.error(error?.response?.data?.error || "Terjadi kesalahan");
@@ -118,7 +118,7 @@ export default function AdminEskulPage() {
       const res = await axios.delete(`${api_eskul}/${slug}`);
 
       toast.success(res.data);
-      router.refresh();
+      await refetch();
     } catch (error: any) {
       toast.error(error?.response?.data?.error || "Gagal menghapus data");
     }
