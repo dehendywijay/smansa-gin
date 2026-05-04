@@ -8,21 +8,21 @@ export const useEskul = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchEskul = async () => {
-      try {
-        const data = await axios.get<Eskul[]>(`${api_eskul}`).then((res) => res.data);
-        setEskul(data);
-      } catch (error) {
-        console.error(error);
-        setError("Gagal Mengambil Data Eskul.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchEskul = async () => {
+    try {
+      const data = await axios.get<Eskul[]>(`${api_eskul}`).then((res) => res.data);
+      setEskul(data);
+    } catch (error) {
+      console.error(error);
+      setError("Gagal Mengambil Data Eskul.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchEskul();
   }, []);
 
-  return { eskul, loading, error };
+  return { eskul, loading, error, refetch: fetchEskul };
 };

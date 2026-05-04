@@ -11,21 +11,21 @@ export const useGuru = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchGuru = async () => {
-      try {
-        const data = await axios.get<Guru[]>(`${api_guru}`).then((res) => res.data);
-        setGuru(data);
-      } catch (error) {
-        console.error(error);
-        setError("Gagal Mengambil Data Guru.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchGuru = async () => {
+    try {
+      const data = await axios.get<Guru[]>(`${api_guru}`).then((res) => res.data);
+      setGuru(data);
+    } catch (error) {
+      console.error(error);
+      setError("Gagal Mengambil Data Guru.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchGuru();
   }, []);
 
-  return { guru, loading, error };
+  return { guru, loading, error, refetch: fetchGuru };
 };

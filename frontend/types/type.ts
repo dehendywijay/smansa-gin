@@ -24,18 +24,19 @@ export type News = {
 
 export type Guru = {
   ID: number;
-  Nama: string;
-  Jabatan: string;
-  Nip: string;
-  Foto: string;
+  nama: string;
+  jabatan: string;
+  nip: string;
+  foto: string;
 };
 
 export type Eskul = {
   ID: number;
-  Nama: string;
-  Deskripsi: string;
-  Foto: string;
-  Pembina: string;
-  Jadwal: string;
-  Prestasi: string;
+  nama: string;
+  tujuan: string;
+  foto: string;
+  pembina: string;
+  jadwal: string;
+  prestasi: string;
+  slug: string;
 };

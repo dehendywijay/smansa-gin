@@ -28,7 +28,7 @@ import GuruFormDialog from "@/components/admin/GuruFormDialog";
 import { AlertDialogDestructive } from "@/components/admin/alert-delete";
 export default function AdminGuruStafPage() {
   const router = useRouter();
-  const { guru, loading, error } = useGuru();
+  const { guru, loading, error, refetch } = useGuru();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -101,7 +101,7 @@ export default function AdminGuruStafPage() {
 
       resetForm();
       setIsDialogOpen(false);
-      router.refresh();
+      await refetch();
     } catch (error: any) {
       console.error(error);
       toast.error(error?.response?.data?.error || "Terjadi kesalahan");
@@ -113,20 +113,20 @@ export default function AdminGuruStafPage() {
 
   const filteredStaff = guru.filter(
     (s) =>
-      s.nama.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      s.nip.includes(searchQuery),
+      s.nama?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      s.nip?.includes(searchQuery),
   );
 
   const handleDelete = async (id: number) => {
-  try {
-    const res = await axios.delete(`${api_guru}/${id}`);
+    try {
+      const res = await axios.delete(`${api_guru}/${id}`);
 
-    toast.success(res.data.message);
-    router.refresh();
-  } catch (error: any) {
-    toast.error(error?.response?.data?.error || "Gagal menghapus data");
-  }
-};
+      toast.success(res.data.message);
+      await refetch();
+    } catch (error: any) {
+      toast.error(error?.response?.data?.error || "Gagal menghapus data");
+    }
+  };
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -218,11 +218,11 @@ export default function AdminGuruStafPage() {
                         <Pencil size={16} />
                       </Button>
 
-                      <Button>
+                      
                         <AlertDialogDestructive
                           onDelete={() => handleDelete(person.ID)}
                         />
-                      </Button>
+                      
                     </div>
                   </TableCell>
                 </TableRow>
