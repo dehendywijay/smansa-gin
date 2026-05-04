@@ -8,9 +8,9 @@ import { Compass, ArrowRight } from "lucide-react";
 export default function EkskulPage() {
   return (
     <main className="bg-white min-h-screen">
-      <PageHero 
-        title="Ekstrakurikuler" 
-        imageUrl="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1920&auto=format&fit=crop" 
+      <PageHero
+        title="Ekstrakurikuler"
+        imageUrl="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1920&auto=format&fit=crop"
         alt="Ekstrakurikuler"
         breadcrumbs={[{ label: "Ekskul" }]}
       />
@@ -34,23 +34,23 @@ export default function EkskulPage() {
           {/* Grid Section */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
             {ekskulList.map((ekskul, index) => (
-              <RevealOnScroll 
-                key={ekskul.title} 
-                direction="up" 
+              <RevealOnScroll
+                key={ekskul.title}
+                direction="up"
                 delayClassName={`delay-${index * 100}`}
                 className="group"
               >
                 <Link href={ekskul.href} className="block relative bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-slate-100">
                   {/* Image Container */}
                   <div className="relative h-64 overflow-hidden">
-                    <Image 
-                      src={ekskul.image} 
-                      alt={ekskul.title} 
+                    <Image
+                      src={ekskul.image}
+                      alt={ekskul.title}
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110" 
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent" />
-                    
+
                     {/* Badge */}
                     <div className="absolute bottom-4 left-6">
                       <span className="px-3 py-1 rounded-full bg-brand-secondary text-slate-900 text-[10px] font-bold uppercase tracking-wider">
