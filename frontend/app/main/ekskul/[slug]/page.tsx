@@ -1,25 +1,32 @@
-import Sidebar from "@/components/news/SideNews";
-import RevealOnScroll from "@/components/animations/RevealOnScroll";
-import PageHero from "@/components/shared/PageHero";
-import { Calendar, User, Info, Trophy } from "lucide-react";
-import Image from "next/image";
+"use client";
 
-export default function PaskibraPage() {
-  const data = {
-    title: "Paskibra",
-    image: "https://images.unsplash.com/photo-1588392382834-a891154bca4d?q=80&w=1920&auto=format&fit=crop",
-    content: "Paskibra SMANSA bukan sekadar latihan baris-berbaris. Di sini, siswa ditempa untuk memiliki kedisiplinan tinggi, semangat patriotisme, dan kemampuan kepemimpinan yang tangguh.",
-    schedule: "Rabu & Sabtu, 15:00 - 17:00",
-    coach: "Ibu Siti Aminah, S.Pd.",
-  };
+import RevealOnScroll from "@/components/animations/RevealOnScroll";
+import Sidebar from "@/components/news/SideNews";
+import PageHero from "@/components/shared/PageHero";
+import { useEskulDetail } from "@/hook/useEskulDetail";
+import { Calendar, Info, Trophy, User } from "lucide-react";
+import Image from "next/image";
+import React from "react";
+
+export default function Home({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = React.use(params);
+  const { eskul, loading, error } = useEskulDetail(slug);
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
 
   return (
     <main className="bg-white min-h-screen">
-      <PageHero 
-        title={data.title} 
-        imageUrl={data.image} 
-        alt={data.title}
-        breadcrumbs={[{ label: "Ekskul", href: "/main/ekskul" }, { label: data.title }]}
+      <PageHero
+        title={eskul?.nama || "Detail Ekskul"}
+        imageUrl={eskul?.foto || "/default-eskul.jpg"}
+        alt={eskul?.nama || "Hero Background"}
+        breadcrumbs={[
+          { label: "Ekskul", href: "/main/ekskul" },
+          { label: eskul?.nama || "Loading..." },
+        ]}
       />
 
       <div className="max-w-7xl mx-auto px-6 py-20">
@@ -27,7 +34,12 @@ export default function PaskibraPage() {
           <section className="lg:col-span-3 space-y-12">
             <RevealOnScroll direction="up" className="space-y-8">
               <div className="relative aspect-video rounded-[40px] overflow-hidden shadow-2xl">
-                <Image src={data.image} alt={data.title} fill className="object-cover" />
+                <Image
+                  src={eskul?.foto || "/default-eskul.jpg"}
+                  alt={eskul?.nama || "Hero Background"}
+                  fill
+                  className="object-cover"
+                />
               </div>
 
               <div className="grid sm:grid-cols-2 gap-6">
@@ -36,8 +48,10 @@ export default function PaskibraPage() {
                     <Calendar size={24} />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Jadwal Latihan</p>
-                    <p className="text-slate-900 font-bold">{data.schedule}</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">
+                      Jadwal Latihan
+                    </p>
+                    <p className="text-slate-900 font-bold">{eskul?.jadwal}</p>
                   </div>
                 </div>
                 <div className="p-6 rounded-3xl bg-amber-50 border border-amber-200/50 flex items-start gap-4">
@@ -45,8 +59,10 @@ export default function PaskibraPage() {
                     <User size={24} />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Pembina / Pelatih</p>
-                    <p className="text-slate-900 font-bold">{data.coach}</p>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">
+                      Pembina / Pelatih
+                    </p>
+                    <p className="text-slate-900 font-bold">{eskul?.pembina}</p>
                   </div>
                 </div>
               </div>
@@ -54,14 +70,18 @@ export default function PaskibraPage() {
               <div className="space-y-6">
                 <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200">
                   <Info size={16} className="text-brand-primary" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-slate-600">Tentang Ekskul</span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
+                    Tentang Ekskul
+                  </span>
                 </div>
                 <h2 className="text-3xl font-heading font-extrabold text-slate-900">
-                  Mengembangkan Potensi Melalui <span className="text-brand-primary">{data.title}</span>
+                  Mengembangkan Potensi Melalui{" "}
+                  <span className="text-brand-primary">{eskul?.nama}</span>
                 </h2>
-                <div className="prose prose-lg prose-slate max-w-none text-slate-600 leading-relaxed">
-                  <p>{data.content}</p>
-                </div>
+                <div
+                  className="prose prose-lg prose-slate max-w-none text-slate-600 leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: eskul?.tujuan || "" }}
+                />
               </div>
 
               <div className="p-10 rounded-[40px] bg-slate-900 text-white space-y-6 relative overflow-hidden">
@@ -69,11 +89,17 @@ export default function PaskibraPage() {
                 <div className="relative z-10">
                   <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 mb-6">
                     <Trophy size={16} className="text-brand-accent" />
-                    <span className="text-xs font-bold uppercase tracking-wider">Prestasi Terbaru</span>
+                    <span className="text-xs font-bold uppercase tracking-wider">
+                      Prestasi Terbaru
+                    </span>
                   </div>
-                  <h3 className="text-2xl font-heading font-bold mb-4">Mencetak Generasi Juara</h3>
+                  <h3 className="text-2xl font-heading font-bold mb-4">
+                    Mencetak Generasi Juara
+                  </h3>
                   <p className="text-slate-400 max-w-2xl leading-relaxed">
-                    Ekskul {data.title} SMAN 1 Bangunrejo telah berhasil meraih berbagai penghargaan di tingkat kabupaten maupun provinsi dalam kurun waktu terakhir.
+                    Ekskul {eskul?.nama} SMAN 1 Bangunrejo telah berhasil meraih
+                    berbagai penghargaan di tingkat kabupaten maupun provinsi
+                    dalam kurun waktu terakhir.
                   </p>
                 </div>
               </div>
