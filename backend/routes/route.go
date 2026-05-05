@@ -13,12 +13,13 @@ func NewsRoute(r *gin.Engine) {
 		news.GET("/", controllers.GetNews)
 		news.GET("/:slug", controllers.GetNewsByID)
 		news.POST("", controllers.CreateNews)
+		news.PUT("/:slug", controllers.UpdateNews)
+		news.DELETE("/:slug", controllers.DeleteNews)
 	}
 	news.Use(middleware.AuthMiddleware())
 	{
 		
-		news.PUT("/:slug", controllers.UpdateNews)
-		news.DELETE("/:slug", controllers.DeleteNews)
+		
 	}
 
 	detail := r.Group("/api/detail")
@@ -55,5 +56,15 @@ func EskulRoute(r *gin.Engine) {
 		eskul.GET("/:slug", controllers.GetEskulByID)
 		eskul.PUT("/:slug", controllers.EditEskul)
 		eskul.DELETE("/:slug", controllers.DeleteEskul)
+	}
+}
+
+func AlumniRoute(r *gin.Engine) {
+	alumni := r.Group("/api/alumni")
+	{
+		alumni.POST("", controllers.CreateAlumni)
+		alumni.GET("", controllers.GetAllAlumni)
+		alumni.PUT("/:id", controllers.UpdateAlumni)
+		alumni.DELETE("/:id", controllers.DeleteAlumni)
 	}
 }

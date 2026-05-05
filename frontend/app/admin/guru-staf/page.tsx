@@ -6,7 +6,6 @@ import {
   Plus,
   Search,
   Pencil,
-  Trash2,
   User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,12 +21,10 @@ import {
 import { toast } from "sonner";
 import axios from "axios";
 import { api_guru } from "@/constans/strings";
-import { useRouter } from "next/navigation";
 import { useGuru } from "@/hook/useGuru";
 import GuruFormDialog from "@/components/admin/GuruFormDialog";
 import { AlertDialogDestructive } from "@/components/admin/alert-delete";
 export default function AdminGuruStafPage() {
-  const router = useRouter();
   const { guru, loading, error, refetch } = useGuru();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -159,7 +156,7 @@ export default function AdminGuruStafPage() {
         </div>
 
         <div className="rounded-2xl border border-slate-100 overflow-x-auto">
-          <Table className="min-w-[800px]">
+          <Table className="min-w-200">
             <TableHeader className="bg-slate-50">
               <TableRow>
                 <TableHead className="w-16">No</TableHead>

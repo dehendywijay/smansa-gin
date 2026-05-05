@@ -5,3 +5,4 @@ export const api_images = `${api}/uploads`
 
 export const api_guru = `${api}/api/guru`
 export const api_eskul = `${api}/api/eskul`
+export const api_alumni = `${api}/api/alumni`

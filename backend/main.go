@@ -17,12 +17,13 @@ func main() {
 
 
 	config.ConnectDB()
-	config.DB.AutoMigrate(&models.News{}, &models.Admin{}, &models.Guru{}, &models.KepalaSekolah{}, &models.Eskul{})
+	config.DB.AutoMigrate(&models.News{}, &models.Admin{}, &models.Guru{}, &models.KepalaSekolah{}, &models.Eskul{}, &models.Alumni{})
 	
 	routes.NewsRoute(r)
 	routes.AuthRoute(r)
 	routes.GuruRoute(r)
 	routes.EskulRoute(r)
+	routes.AlumniRoute(r)
 
 	port := os.Getenv("PORT")
 	if port == "" {
