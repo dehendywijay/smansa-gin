@@ -122,9 +122,17 @@ func UpdateNews(c *gin.Context) {
 func DeleteNews(c *gin.Context) {
 	slug := c.Param("slug")
 
-	err := services.DeleteNews(slug)
+	foto, err := services.DeleteNews(slug)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	
+	fotopath := utility.ExtractObjectPath(foto, "image_thumbnail")
+
+	err = services.DeleteFromSupabase("image_thumbnail",fotopath)
+	if err != nil{
+		c.JSON(http.StatusInternalServerError, gin.H{"error" : "Gagal Menhapus Foto"})
 		return
 	}
 

@@ -38,7 +38,7 @@ func ProcessImageUpload(c *gin.Context, field string) ([]byte, string, string, e
 		ext = ".jpg"
 	}
 
-	objectPath := fmt.Sprintf("news/%d/%02d/%s%s",
+	objectPath := fmt.Sprintf("%d/%02d/%s%s",
 		time.Now().Year(),
 		time.Now().Month(),
 		uuid.NewString(),

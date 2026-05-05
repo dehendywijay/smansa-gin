@@ -36,11 +36,20 @@ func UpdateNews(slug string, data models.News) (models.News, error) {
 	return news, err
 }
 
-func DeleteNews(slug string) error {
+func DeleteNews(slug string) (string, error) {
 	var news models.News
+
 	err := config.DB.Where("slug = ?", slug).First(&news).Error
 	if err != nil {
-		return err
+		return "", err
 	}
-	return config.DB.Delete(&news).Error
+
+	thumbnail := news.Thumbnail
+
+	err = config.DB.Delete(&news).Error
+	if err != nil {
+		return "", err
+	}
+
+	return thumbnail, nil
 }
