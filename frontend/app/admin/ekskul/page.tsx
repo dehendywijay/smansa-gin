@@ -79,7 +79,7 @@ export default function AdminEskulPage() {
     setIsEdit(true);
     setIsDialogOpen(true);
 
-    
+
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
