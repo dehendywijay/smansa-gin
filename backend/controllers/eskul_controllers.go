@@ -16,12 +16,16 @@ func CreateEskul(c *gin.Context) {
 	prestasi := c.PostForm("prestasi")
 	tujuan := c.PostForm("tujuan")
 
+	slug := utility.MakeSlug(nama)
+
+	
+
 	fileBytes, objectPath, contentType, err := utility.ProcessImageUpload(c, "foto")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Gagal memproses gambar: " })
 		return
 	}
-
+	
 	publicURL, err := services.UploadToSupabase("eskul", objectPath, contentType, fileBytes)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal mengunggah gambar " })
@@ -35,7 +39,7 @@ func CreateEskul(c *gin.Context) {
 		Prestasi: prestasi,
 		Foto:    publicURL,
 		Tujuan: tujuan,
-		Slug:    utility.MakeSlug(nama),
+		Slug:    slug,
 	}
 
 
@@ -77,13 +81,17 @@ func EditEskul(c *gin.Context) {
 	prestasi := c.PostForm("prestasi")
 	tujuan := c.PostForm("tujuan")
 
+	newSlug := utility.MakeSlug(nama)
+
+	
+
 	eskul := models.Eskul{
 		Nama:    nama,
 		Pembina: pembina,
 		Jadwal:  jadwal,
 		Prestasi: prestasi,
 		Tujuan: tujuan,
-		Slug: utility.MakeSlug(nama),
+		Slug: newSlug,
 	}
 
 	file, _ := c.FormFile("foto")

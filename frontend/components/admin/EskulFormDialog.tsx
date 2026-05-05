@@ -120,11 +120,11 @@ export default function EskulFormDialog({
               type="button"
               onClick={() => onOpenChange(false)}
               variant="outline"
-              className="rounded-lg px-6"
+              className="rounded-lg px-6 cursor-pointer"
             >
               Batal
             </Button>
-            <Button type="submit" className="bg-brand-primary hover:bg-brand-primary/90 rounded-lg px-8">
+            <Button type="submit" className="bg-brand-primary hover:bg-brand-primary/90 rounded-lg px-8 cursor-pointer">
               {isEdit ? "Update Data" : "Simpan Data"}
             </Button>
           </DialogFooter>
